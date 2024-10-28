@@ -1,0 +1,35 @@
+# version: '3.4'
+
+# services:
+#   authservice:
+#     image: authservice
+#     build:
+#       context: GameBackendMicroservices/auth-service
+#       dockerfile: ./Dockerfile
+#     environment:
+#       NODE_ENV: production
+#     ports:
+#       - 3000:3000
+
+services:
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    # depends_on:
+    #   - game-session-service
+      
+  game-session-service:
+    build: ./game-session-service
+    ports:
+      - "3001:3001"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+  

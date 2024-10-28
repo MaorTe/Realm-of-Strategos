@@ -1,5 +1,5 @@
 import express from 'express';
-
+import { createSession, getSessionById } from '../../common/src/services/sessionService';
 const app = express();
 const port = 3001;
 
