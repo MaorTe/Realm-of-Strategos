@@ -32,27 +32,32 @@
 #   backend:
 #     driver: bridge
 
+#version: '3.4'
+
 services:
   auth-service:
     build:
-      context: . # Set context to the root directory of the project
-      dockerfile: auth-service/Dockerfile
+      context: ./auth-service
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - ./common:/app/common
     networks:
       - backend
-      
+
   game-session-service:
     build:
-      context: . # Set context to the root directory of the project
-      dockerfile: game-session-service/Dockerfile
+      context: ./game-session-service
+      dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    volumes:
+      - ./common:/app/common
     networks:
       - backend
 
 networks:
   backend:
     driver: bridge
-
   

@@ -10,8 +10,8 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction):
 
   try {
     // Validate token logic...
-    
     next();
+    return res.status(200).json({ message: 'token provided' });
   } catch (error) {
     res.status(401).json({ message: 'Unauthorized' });
   }
