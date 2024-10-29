@@ -11,18 +11,41 @@
 #     ports:
 #       - 3000:3000
 
+# services:
+#   auth-service:
+#     build: ./auth-service
+#     ports:
+#       - "3000:3000"
+#     networks:
+#       - backend
+#     # depends_on:
+#     #   - game-session-service
+      
+#   game-session-service:
+#     build: ./game-session-service
+#     ports:
+#       - "3001:3001"
+#     networks:
+#       - backend
+
+# networks:
+#   backend:
+#     driver: bridge
+
 services:
   auth-service:
-    build: ./auth-service
+    build:
+      context: . # Set context to the root directory of the project
+      dockerfile: auth-service/Dockerfile
     ports:
       - "3000:3000"
     networks:
       - backend
-    # depends_on:
-    #   - game-session-service
       
   game-session-service:
-    build: ./game-session-service
+    build:
+      context: . # Set context to the root directory of the project
+      dockerfile: game-session-service/Dockerfile
     ports:
       - "3001:3001"
     networks:
