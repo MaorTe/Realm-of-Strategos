@@ -1,7 +1,8 @@
 {
-  "name": "strategos-services-common-package-npm",
-  "version": "1.0.0",
+  "name": "@maorte/strategos-services-common-package",
+  "version": "1.0.1",
   "main": "dist/config.js",
+  "types": "types",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,5 +19,5 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.9"
   },
-  "files": ["dist/*"]
+  "files": ["dist/*","types/*"]
 }
