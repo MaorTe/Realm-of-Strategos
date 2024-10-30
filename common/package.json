@@ -19,5 +19,8 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.7.9"
   },
-  "files": ["dist/*","types/*"]
+  "files": [
+    "dist/*",
+    "types/*"
+  ]
 }
