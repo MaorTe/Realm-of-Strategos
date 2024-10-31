@@ -41,8 +41,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    volumes:
-      - ./common:/app/common
     networks:
       - backend
 
@@ -52,8 +50,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
-    volumes:
-      - ./common:/app/common
     networks:
       - backend
 
