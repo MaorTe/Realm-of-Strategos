@@ -1,10 +1,10 @@
 import express from 'express';
 import axios from 'axios';
 
-import { config } from '../../common/src/config';
-import { User } from '../../common/src/models/userModel';  // Reuse the User model
-import { httpClient } from '../../common/src/utils/httpClient';  // Reuse Axios wrapper
-import { authMiddleware } from '../../common/src/middleware/authMiddleware';
+import { config } from '@maorte/strategos-services-common-package/dist/config';
+import { User } from '@maorte/strategos-services-common-package/dist/models/userModel';  // Reuse the User model
+import { httpClient } from '@maorte/strategos-services-common-package/dist/utils/httpClient';  // Reuse Axios wrapper
+import { authMiddleware } from '@maorte/strategos-services-common-package/dist/middleware/authMiddleware';
 
 const app = express();
 const port = 3000;

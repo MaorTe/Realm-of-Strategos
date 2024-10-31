@@ -1,13 +1,12 @@
 import express from 'express';
-export * from '@maorte/strategos-services-common-package/types/sessionService.d.ts';
-import { createSession, getSessionById } from '@maorte/strategos-services-common-package/dist/services/sessionService';
+import { createSession , getSessionById} from '@maorte/strategos-services-common-package/dist/services/sessionService'; 
 const app = express();
 const port = 3001;
 
-app.get('/session', (req, res) => {
+app.get('/session', (req, res):any => {
   res.send('Game Session Service');
 });
 
-app.listen(port, () => {
+app.listen(port, ():any => {
   console.log(`Game Session Service running at http://localhost:${port}`);
 });
