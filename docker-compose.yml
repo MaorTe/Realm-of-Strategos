@@ -11,34 +11,12 @@
 #     ports:
 #       - 3000:3000
 
-# services:
-#   auth-service:
-#     build: ./auth-service
-#     ports:
-#       - "3000:3000"
-#     networks:
-#       - backend
-#     # depends_on:
-#     #   - game-session-service
-      
-#   game-session-service:
-#     build: ./game-session-service
-#     ports:
-#       - "3001:3001"
-#     networks:
-#       - backend
-
-# networks:
-#   backend:
-#     driver: bridge
-
-#version: '3.4'
-
+version: '3.8'
 services:
+
   auth-service:
     build:
       context: ./auth-service
-      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     networks:
@@ -47,12 +25,17 @@ services:
   game-session-service:
     build:
       context: ./game-session-service
-      dockerfile: Dockerfile
     ports:
       - "3001:3001"
     networks:
       - backend
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
 networks:
   backend:
     driver: bridge

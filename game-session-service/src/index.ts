@@ -3,7 +3,7 @@ import { createSession , getSessionById} from '@maorte/strategos-services-common
 const app = express();
 const port = 3001;
 
-app.get('/session', (req, res):any => {
+app.get('/session', (req, res) => {
   res.send('Game Session Service');
 });
 
