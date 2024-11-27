@@ -1,19 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "outDir": "./dist",
+    "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    
+    /* Type Checking */
     "strict": true,
-    "skipLibCheck": true
+    
+    /* Completeness */ 
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "composite": true,
+    "baseUrl": ".",  
+
+    "sourceMap": true,
+    "sourceRoot": "./src",
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts", "hello.ts"], // Include all TypeScript files
+  "exclude": ["node_modules", "dist"]
 }

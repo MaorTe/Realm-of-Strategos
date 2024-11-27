@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { addPlayerToQueue, findMatch } from './matchmaking';
-
+debugger;
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -23,5 +23,5 @@ app.get('/match', async (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT;
 app.listen(port, () => console.log(`Matchmaking service running on port ${port}`));

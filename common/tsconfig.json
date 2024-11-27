@@ -108,7 +108,8 @@
     "skipLibCheck": true,                                 /* Skip type checking all .d.ts files. */
     "outDir": "./dist",
     "moduleResolution": "node",
-    "declaration": true
+    "declaration": true,
+    "sourceMap": true
   }
   ,
   "include": [

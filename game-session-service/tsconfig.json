@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "baseUrl": "./",
     "declaration": true,
+    "sourceMap": true,
     "paths": {
       "@maorte/strategos-services-common-package/types/*": ["../node_modules/@maorte/strategos-services-common-package/types/*"]
     }

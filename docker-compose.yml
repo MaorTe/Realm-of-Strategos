@@ -30,16 +30,21 @@ services:
   matchmaking-service:
     build:
       context: ./matchmaking-service
+    volumes:
+      - ./matchmaking-service:/usr/src/app
     ports:
       - "3002:3002"
+      - "9229:9229" # Debugging port
     networks:
       - backend
     environment:
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - redis
-
+    command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy "dist/src/index.js" # Run the debug script with Nodemon
+    
+     
   redis:
     image: redis:latest
     ports:

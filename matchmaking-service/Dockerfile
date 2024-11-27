@@ -1,5 +1,5 @@
 # Base image
-FROM node:16
+FROM node:16-buster
 
 WORKDIR /usr/src/app
 
@@ -11,6 +11,7 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 3002
+EXPOSE 3002 9229
 
-CMD ["node", "dist/index.js"]
+# Use Node.js debugging mode with source maps
+# CMD ["node", "--inspect=0.0.0.0:9229", "dist/src/index.js"]
