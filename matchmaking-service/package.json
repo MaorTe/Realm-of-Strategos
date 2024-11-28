@@ -1,44 +1,44 @@
 {
-  "name": "matchmaking-service",
-  "version": "1.0.0",
-  "main": "src/index.ts",
-  "scripts": {
-    "build": "tsc"
-    
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1",
-    "ioredis": "^5.4.1",
-    "redis": "^4.7.0"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.9.1",
-    "nodemon": "^3.1.7",
-    "typescript": "^5.6.3",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0"
-  },
-  "files": [
-    "dist/*",
-    "types/*"
-  ],
-  "nodemonConfig": {
-    "watch": [
-      "src/*.ts"
-    ],
-    "ext": "ts",
-    "execMap": {
-      "ts": "node --require ts-node/register -r tsconfig-paths/register"
-    },
-    "ignore": [
-      ".git",
-      "node_modules/**/node_modules"
-    ]
-  }
+   "name": "matchmaking-service",
+   "version": "1.0.0",
+   "main": "src/index.ts",
+   "scripts": {
+      "build": "tsc",
+      "start": "node src/index.ts",
+      "dev": "npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy src/index.ts"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "description": "",
+   "dependencies": {
+      "express": "^4.21.1",
+      "ioredis": "^5.4.1",
+      "redis": "^4.7.0"
+   },
+   "devDependencies": {
+      "@types/express": "^5.0.0",
+      "@types/node": "^22.9.1",
+      "nodemon": "^3.1.7",
+      "typescript": "^5.6.3",
+      "ts-node": "^10.9.2",
+      "tsconfig-paths": "^4.2.0"
+   },
+   "files": [
+      "dist/*",
+      "types/*"
+   ],
+   "nodemonConfig": {
+      "watch": [
+         "src/*.ts"
+      ],
+      "ext": "ts",
+      "execMap": {
+         "ts": "node --require ts-node/register -r tsconfig-paths/register"
+      },
+      "ignore": [
+         ".git",
+         "node_modules/**/node_modules"
+      ]
+   }
 }

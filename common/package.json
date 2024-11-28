@@ -1,26 +1,26 @@
 {
-  "name": "@maorte/strategos-services-common-package",
-  "version": "1.0.3",
-  "main": "dist/config.js",
-  "types": "types",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "axios": "^1.7.7",
-    "dotenv": "^16.4.5",
-    "express": "^4.21.1"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.7.9"
-  },
-  "files": [
-    "dist/*",
-    "types/*"
-  ]
+   "name": "@maorte/strategos-services-common-package",
+   "version": "1.0.3",
+   "main": "dist/config.js",
+   "types": "types",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "description": "",
+   "dependencies": {
+      "axios": "^1.7.7",
+      "dotenv": "^16.4.5",
+      "express": "^4.21.1"
+   },
+   "devDependencies": {
+      "@types/express": "^5.0.0",
+      "@types/node": "^22.10.1"
+   },
+   "files": [
+      "dist/*",
+      "types/*"
+   ]
 }

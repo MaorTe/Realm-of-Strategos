@@ -1,12 +1,7 @@
-import express from 'express';
-import { createSession , getSessionById} from '@maorte/strategos-services-common-package/dist/services/sessionService'; 
-const app = express();
-const port = 3001;
+import dotenv from 'dotenv';
+dotenv.config();
 
-app.get('/session', (req, res) => {
-  res.send('Game Session Service');
-});
-
-app.listen(port, ():any => {
-  console.log(`Game Session Service running at http://localhost:${port}`);
-});
+export const config = {
+   authServiceUrl: process.env.AUTH_SERVICE_URL || 'http://localhost:3000',
+   gameSessionServiceUrl: process.env.GAME_SESSION_SERVICE_URL || 'http://localhost:3001',
+};

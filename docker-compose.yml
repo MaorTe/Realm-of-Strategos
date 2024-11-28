@@ -1,67 +1,80 @@
 version: '3.8'
 services:
+   auth-service:
+      build:
+         context: ./auth-service
+      ports:
+         - '3000:3000'
+      networks:
+         - backend
+      environment:
+         REDIS_HOST: /run/secrets/REDIS_HOST
+         REDIS_PORT: /run/secrets/REDIS_PORT
+      secrets:
+         - REDIS_HOST
+         - REDIS_PORT
+      depends_on:
+         - redis
 
-  auth-service:
-    build:
-      context: ./auth-service
-    ports:
-      - "3000:3000"
-    networks:
-      - backend
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    depends_on:
-      - redis
+   game-session-service:
+      build:
+         context: ./game-session-service
+      ports:
+         - '3001:3001'
+      networks:
+         - backend
+      environment:
+         REDIS_HOST: /run/secrets/REDIS_HOST
+         REDIS_PORT: /run/secrets/REDIS_PORT
+      secrets:
+         - REDIS_HOST
+         - REDIS_PORT
+      depends_on:
+         - redis
 
-  game-session-service:
-    build:
-      context: ./game-session-service
-    ports:
-      - "3001:3001"
-    networks:
-      - backend
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    depends_on:
-      - redis
+   matchmaking-service:
+      build:
+         context: ./matchmaking-service
+      volumes:
+         - ./matchmaking-service:/usr/src/app
+      ports:
+         - '3002:3002'
+         - '9229:9229' # Debugging port
+      networks:
+         - backend
+      environment:
+         REDIS_HOST: /run/secrets/REDIS_HOST
+         REDIS_PORT: /run/secrets/REDIS_PORT
+      secrets:
+         - REDIS_HOST
+         - REDIS_PORT
+      depends_on:
+         - redis
+      command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy "src/index.ts" # Run the debug script with Nodemon
 
-  matchmaking-service:
-    build:
-      context: ./matchmaking-service
-    volumes:
-      - ./matchmaking-service:/usr/src/app
-    ports:
-      - "3002:3002"
-      - "9229:9229" # Debugging port
-    networks:
-      - backend
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-    depends_on:
-      - redis
-    command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy "dist/src/index.js" # Run the debug script with Nodemon
-    
-     
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    networks:
-      - backend
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-    volumes:
-      - redis-data:/data
+   redis:
+      image: redis:latest
+      ports:
+         - '6379:6379'
+      networks:
+         - backend
+      healthcheck:
+         test: ['CMD', 'redis-cli', 'ping']
+         interval: 10s
+         timeout: 5s
+         retries: 3
+      volumes:
+         - redis-data:/data
 
 networks:
-  backend:
-    driver: bridge
+   backend:
+      driver: overlay
 
 volumes:
-  redis-data:
+   redis-data:
+
+secrets:
+   REDIS_HOST:
+      external: true
+   REDIS_PORT:
+      external: true
