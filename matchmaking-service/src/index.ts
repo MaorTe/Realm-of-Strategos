@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import { addPlayerToQueue, findMatch } from './matchmaking';
-debugger;
+
 dotenv.config();
 const app = express();
 app.use(express.json());

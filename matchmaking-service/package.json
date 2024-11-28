@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
-    "start": "node src/index.ts",
-    "dev": "npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy src/index.ts"
+    "build": "tsc"
+    
   },
   "keywords": [],
   "author": "",
