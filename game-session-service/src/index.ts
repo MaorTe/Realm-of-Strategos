@@ -1,7 +1,12 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import express from 'express';
+import { createSession, getSessionById } from '../../common/src/services/sessionService';
+const app = express();
+const port = 3001;
 
-export const config = {
-   authServiceUrl: process.env.AUTH_SERVICE_URL || 'http://localhost:3000',
-   gameSessionServiceUrl: process.env.GAME_SESSION_SERVICE_URL || 'http://localhost:3001',
-};
+app.get('/session', (req, res) => {
+  res.send('Game Session Service');
+});
+
+app.listen(port, () => {
+  console.log(`Game Session Service running at http://localhost:${port}`);
+});

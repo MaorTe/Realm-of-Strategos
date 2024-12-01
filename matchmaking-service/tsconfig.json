@@ -16,8 +16,8 @@
     "baseUrl": ".",  
 
     "sourceMap": true,
-    "sourceRoot": "./src",
+    //"sourceRoot": "./src",
   },
-  "include": ["src/**/*.ts", "hello.ts"], // Include all TypeScript files
+  "include": ["src/**/*.ts"], // Include all TypeScript files
   "exclude": ["node_modules", "dist"]
 }

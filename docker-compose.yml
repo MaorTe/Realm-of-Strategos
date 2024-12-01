@@ -1,8 +1,7 @@
 version: '3.8'
 services:
    auth-service:
-      build:
-         context: ./auth-service
+      image: maorte/auth-service:latest
       ports:
          - '3000:3000'
       networks:
@@ -17,8 +16,7 @@ services:
          - redis
 
    game-session-service:
-      build:
-         context: ./game-session-service
+      image: maorte/game-session-service:latest
       ports:
          - '3001:3001'
       networks:
@@ -33,8 +31,9 @@ services:
          - redis
 
    matchmaking-service:
-      build:
-         context: ./matchmaking-service
+      image: maorte/matchmaking-service:latest
+      env_file:
+         - .env
       volumes:
          - ./matchmaking-service:/usr/src/app
       ports:
