@@ -6,12 +6,6 @@ services:
          - '3000:3000'
       networks:
          - backend
-      environment:
-         REDIS_HOST: /run/secrets/REDIS_HOST
-         REDIS_PORT: /run/secrets/REDIS_PORT
-      secrets:
-         - REDIS_HOST
-         - REDIS_PORT
       depends_on:
          - redis
 
@@ -21,12 +15,6 @@ services:
          - '3001:3001'
       networks:
          - backend
-      environment:
-         REDIS_HOST: /run/secrets/REDIS_HOST
-         REDIS_PORT: /run/secrets/REDIS_PORT
-      secrets:
-         - REDIS_HOST
-         - REDIS_PORT
       depends_on:
          - redis
 
@@ -41,12 +29,6 @@ services:
          - '9229:9229' # Debugging port
       networks:
          - backend
-      environment:
-         REDIS_HOST: /run/secrets/REDIS_HOST
-         REDIS_PORT: /run/secrets/REDIS_PORT
-      secrets:
-         - REDIS_HOST
-         - REDIS_PORT
       depends_on:
          - redis
       command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy "src/index.ts" # Run the debug script with Nodemon
