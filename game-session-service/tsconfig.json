@@ -1,25 +1,26 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "moduleResolution": "node",
-    "outDir": "./dist",
+    "module": "commonjs",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    
+    /* Type Checking */
     "strict": true,
+
+    /* Completeness */ 
     "skipLibCheck": true,
-    "baseUrl": "./",
-    "declaration": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "composite": true,
+    "baseUrl": ".",  
+    
+    //"declaration": true,
     "sourceMap": true,
     "paths": {
       "@maorte/strategos-services-common-package/types/*": ["../node_modules/@maorte/strategos-services-common-package/types/*"]
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts"], // Include all TypeScript files
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,7 +1,8 @@
 version: '3.8'
 services:
    auth-service:
-      image: maorte/auth-service:latest
+      build:
+         context: ./auth-service
       ports:
          - '3000:3000'
       networks:
@@ -10,7 +11,8 @@ services:
          - redis
 
    game-session-service:
-      image: maorte/game-session-service:latest
+      build:
+         context: ./game-session-service
       ports:
          - '3001:3001'
       networks:
@@ -19,9 +21,8 @@ services:
          - redis
 
    matchmaking-service:
-      image: maorte/matchmaking-service:latest
-      env_file:
-         - .env
+      build:
+         context: ./matchmaking-service
       volumes:
          - ./matchmaking-service:/usr/src/app
       ports:
@@ -49,13 +50,7 @@ services:
 
 networks:
    backend:
-      driver: overlay
-
+      driver: bridge
+      
 volumes:
    redis-data:
-
-secrets:
-   REDIS_HOST:
-      external: true
-   REDIS_PORT:
-      external: true

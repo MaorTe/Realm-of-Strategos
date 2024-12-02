@@ -11,6 +11,11 @@ const redis = new Redis({
   port: parseInt(process.env.REDIS_PORT || '6379', 10),
 });
 
+redis.set('test', 'connection-check').then(() => {
+  console.log('Redis connection is successful!');
+}).catch((error) => {
+  console.error('Redis connection failed:', error);
+});
 // Define the Player interface
 export interface Player {
   id: string;
@@ -45,3 +50,5 @@ export const findMatch = async (): Promise<Player[] | null> => {
     throw error;
   }
 };
+
+console.error(`End of matchmaking-service/index.ts!`);

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createSession, getSessionById } from '../../common/src/services/sessionService';
+import { createSession, getSessionById } from '@maorte/strategos-services-common-package/dist/services/sessionService'; 
 const app = express();
 const port = 3001;
 
