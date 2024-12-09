@@ -1,8 +1,5 @@
 import Redis from 'ioredis';
-import * as fs from 'fs';
 import dotenv from 'dotenv';
-//const redisPort = fs.readFileSync('/run/secrets/REDIS_PORT', 'utf8').trim();
-//const redisHost = fs.readFileSync('/run/secrets/REDIS_HOST', 'utf8').trim();
 dotenv.config();
 
 // Initialize Redis with environment variables for host and port

@@ -1,11 +1,9 @@
-import * as fs from 'fs';
 import dotenv from 'dotenv';
 import express from 'express';
 import { addPlayerToQueue, findMatch } from './matchmaking';
 
 const app = express();
 app.use(express.json());
-//const redisPort = fs.readFileSync('/run/secrets/REDIS_PORT', 'utf8').trim();
 dotenv.config();
 const port = process.env.MATCH_PORT || 3002;
 
@@ -27,4 +25,3 @@ app.get('/match', async (req, res) => {
 });
 
 app.listen(port, () => console.log(`Matchmaking service running on port ${port}`));
-console.log('Initiated index.ts!');
