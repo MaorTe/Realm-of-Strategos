@@ -1,26 +1,28 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    
-    /* Type Checking */
-    "strict": true,
+   "compilerOptions": {
+      "target": "ES2020",
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
 
-    /* Completeness */ 
-    "skipLibCheck": true,
-    "outDir": "./dist",
-    "moduleResolution": "node",
-    "composite": true,
-    "baseUrl": ".",  
-    
-    //"declaration": true,
-    "sourceMap": true,
-    "paths": {
-      "@maorte/strategos-services-common-package/types/*": ["../node_modules/@maorte/strategos-services-common-package/types/*"]
-    }
-  },
-  "include": ["src/**/*.ts"], // Include all TypeScript files
-  "exclude": ["node_modules", "dist"]
+      /* Type Checking */
+      "strict": true,
+
+      /* Completeness */
+      "skipLibCheck": true,
+      "outDir": "./dist",
+      "moduleResolution": "node",
+      "composite": true,
+      "baseUrl": ".",
+      "allowJs": true,
+      //"declaration": true,
+      "sourceMap": true,
+      "paths": {
+         "@maorte/strategos-services-common-package/types/*": [
+            "../node_modules/@maorte/strategos-services-common-package/types/*"
+         ]
+      }
+   },
+   "include": ["src/**/*.ts"], // Include all TypeScript files
+   "exclude": ["node_modules", "dist"]
 }
