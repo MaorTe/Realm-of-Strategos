@@ -38,15 +38,9 @@ app.post('/sessions', (req: Request, res: Response) => {
 });
 
 // Get a game session by ID
-<<<<<<< HEAD
 app.get('/sessions/:id', (req: Request, res: Response) :any => {
   const { id } = req.params;
   const session = gameSessions[id];
-=======
-app.get('/sessions/:id', (req: Request, res: Response): any => {
-   const { id } = req.params;
-   const session = gameSessions[id];
->>>>>>> 35abc87ae56a254f1fd1bb195cdff6360b3901ce
 
    if (!session) {
       return res.status(404).json({ error: 'Session not found' });
@@ -61,17 +55,10 @@ app.get('/sessions', (req: Request, res: Response) => {
    res.json(allSessions);
 });
 
-<<<<<<< HEAD
 // Update a game session's status
 app.patch('/sessions/:id/status', (req: Request, res: Response) :any => {
   const { id } = req.params;
   const { status } = req.body as { status: 'waiting' | 'active' | 'completed' };
-=======
-// // Update a game session's status
-app.patch('/sessions/:id/status', (req: Request, res: Response): any => {
-   const { id } = req.params;
-   const { status } = req.body as { status: 'waiting' | 'active' | 'completed' };
->>>>>>> 35abc87ae56a254f1fd1bb195cdff6360b3901ce
 
    const session = gameSessions[id];
 
@@ -87,15 +74,9 @@ app.patch('/sessions/:id/status', (req: Request, res: Response): any => {
    res.json(session);
 });
 
-<<<<<<< HEAD
 // Delete a game session
 app.delete('/sessions/:id', (req: Request, res: Response) :any => {
   const { id } = req.params;
-=======
-// // Delete a game session
-app.delete('/sessions/:id', (req: Request, res: Response): any => {
-   const { id } = req.params;
->>>>>>> 35abc87ae56a254f1fd1bb195cdff6360b3901ce
 
    if (!gameSessions[id]) {
       return res.status(404).json({ error: 'Session not found' });
