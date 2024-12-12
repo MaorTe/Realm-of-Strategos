@@ -30,7 +30,7 @@ app.post('/sessions', (req: Request, res: Response) => {
 });
 
 // Get a game session by ID
-app.get('/sessions/:id', (req: Request, res: Response) => {
+app.get('/sessions/:id', (req: Request, res: Response) :any => {
   const { id } = req.params;
   const session = gameSessions[id];
 
@@ -48,7 +48,7 @@ app.get('/sessions', (req: Request, res: Response) => {
 });
 
 // Update a game session's status
-app.patch('/sessions/:id/status', (req: Request, res: Response) => {
+app.patch('/sessions/:id/status', (req: Request, res: Response) :any => {
   const { id } = req.params;
   const { status } = req.body as { status: 'waiting' | 'active' | 'completed' };
 
@@ -67,7 +67,7 @@ app.patch('/sessions/:id/status', (req: Request, res: Response) => {
 });
 
 // Delete a game session
-app.delete('/sessions/:id', (req: Request, res: Response) => {
+app.delete('/sessions/:id', (req: Request, res: Response) :any => {
   const { id } = req.params;
 
   if (!gameSessions[id]) {
