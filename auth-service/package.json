@@ -14,10 +14,12 @@
   "dependencies": {
     "@maorte/strategos-services-common-package": "^1.0.3",
     "axios": "^1.7.7",
-    "express": "^4.21.1"
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.7.8",
     "ts-node": "^10.5.0",
     "typescript": "^5.6.3"
