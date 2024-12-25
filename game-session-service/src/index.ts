@@ -1,11 +1,11 @@
-import express, { Request, Response } from 'express';
 import {
-    createGameSession,
-    getGameSession,
-    updateGameSessionStatus,
-    listGameSessions,
-    deleteGameSession,
+   createGameSession,
+   getGameSession,
+   updateGameSessionStatus,
+   listGameSessions,
+   deleteGameSession,
 } from './services/gameSessionManager';
+import express, { Request, Response } from 'express';
 
 const app = express();
 app.use(express.json());

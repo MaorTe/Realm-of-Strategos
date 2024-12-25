@@ -15,10 +15,12 @@ services:
          context: ./game-session-service
       ports:
          - '3001:3001'
+         - '9230:9230' # Debugging port
       networks:
          - backend
       depends_on:
          - redis
+      command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9230 --nolazy "src/index.ts" # Run the debug script with Nodemon
 
    matchmaking-service:
       build:
