@@ -35,6 +35,18 @@ services:
       depends_on:
          - redis
       command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy "src/index.ts" # Run the debug script with Nodemon
+   
+   localstack:
+      image: localstack/localstack
+      container_name: localstack
+      ports:
+         - "4566:4566" # LocalStack Gateway
+         - "4571:4571" # S3
+      environment:
+         - SERVICES=s3,dynamodb,apigateway
+         - DEBUG=1
+      volumes:
+         - "./localstack:/etc/localstack"
 
    redis:
       image: redis:latest

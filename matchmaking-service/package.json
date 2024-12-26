@@ -14,7 +14,8 @@
    "dependencies": {
       "express": "^4.21.1",
       "ioredis": "^5.4.1",
-      "redis": "^4.7.0"
+      "redis": "^4.7.0",
+      "uuid": "^11.0.3"
    },
    "devDependencies": {
       "@types/express": "^5.0.0",

@@ -19,7 +19,7 @@ app.post('/queue', async (req: Request, res: Response): Promise<void> => {
     }
 
     try {
-        await addPlayerToQueue({ id, skill });
+        await addPlayerToQueue({ id, skill , timestamp: Date.now() });
         res.status(200).json({ message: 'Player added to queue' });
     } catch (error) {
         console.error('Failed to add player to queue:', error);
