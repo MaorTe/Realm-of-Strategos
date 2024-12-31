@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    
+    /* Type Checking */
+    "strict": true,
+    
+    /* Completeness */ 
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "moduleResolution": "node",
+    "composite": true,
+    "baseUrl": ".",  
+
+    "sourceMap": true,
+    //"sourceRoot": "./src",
+  },
+  "include": ["*.ts"], // Include all TypeScript files
+  "exclude": ["node_modules", "dist"]
+}

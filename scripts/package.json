@@ -1,0 +1,31 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "main": "gateway-setup.ts",
+  "scripts": {
+    "build": "npm install && tsc",
+    "setup:gateway": "ts-node gateway-setup.ts"
+  },
+  "keywords": [
+    "localstack",
+    "api-gateway",
+    "typescript",
+    "scripts"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "Utility scripts for setting up API Gateway in LocalStack.",
+  "dependencies": {
+    "aws-sdk": "^2.1350.0"
+  },
+   "devDependencies": {
+      "@types/express": "^5.0.0",
+      "@types/node": "^22.9.1",
+      "nodemon": "^3.1.7",
+      "typescript": "^5.6.3",
+      "dotenv": "^16.4.5",
+      "ts-node": "^10.9.2",
+      "tsconfig-paths": "^4.2.0"
+   }
+}

@@ -46,7 +46,8 @@ services:
          - SERVICES=s3,dynamodb,apigateway
          - DEBUG=1
       volumes:
-         - "./localstack:/etc/localstack"
+         - "./scripts:/etc/localstack/scripts" # Point to the new folder for utility scripts
+
 
    redis:
       image: redis:latest
