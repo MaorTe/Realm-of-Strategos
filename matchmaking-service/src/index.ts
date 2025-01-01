@@ -10,8 +10,8 @@ app.use(express.json());
 
 const port = process.env.MATCH_PORT || 3002;
 
-// Add player to matchmaking queue
-app.post('/queue', async (req: Request, res: Response): Promise<void> => {
+// **1. Add player to matchmaking queue**
+app.post('/matchmaking/queue', async (req: Request, res: Response): Promise<void> => {
     const { id, skill } = req.body;
     if (!id || typeof skill !== 'number') {
         res.status(400).json({ error: 'Invalid input. Player ID and skill are required.' });
@@ -27,8 +27,8 @@ app.post('/queue', async (req: Request, res: Response): Promise<void> => {
     }
 });
 
-// Find a match
-app.get('/match', async (_req: Request, res: Response): Promise<void> => {
+// **2. Find a match**
+app.get('/matchmaking/match', async (_req: Request, res: Response): Promise<void> => {
     try {
         const match = await findMatch();
         if (match) {
@@ -42,8 +42,8 @@ app.get('/match', async (_req: Request, res: Response): Promise<void> => {
     }
 });
 
-// Assign matched players to a session
-app.post('/assign-session', async (_req: Request, res: Response): Promise<void> => {
+// **3. Assign matched players to a session**
+app.post('/matchmaking/session', async (_req: Request, res: Response): Promise<void> => {
     try {
         const match = await findMatch();
         if (match) {

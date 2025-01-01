@@ -10,8 +10,8 @@ import express, { Request, Response } from 'express';
 const app = express();
 app.use(express.json());
 
-// Create a new game session
-app.post('/sessions', (req: Request, res: Response):any => {
+// **1. Create a new game session**
+app.post('/game-session/create', (req: Request, res: Response): any => {
     const { players } = req.body;
     if (!Array.isArray(players) || players.some((p: any) => typeof p !== 'string')) {
         return res.status(400).json({ error: 'Invalid players array' });
@@ -21,8 +21,8 @@ app.post('/sessions', (req: Request, res: Response):any => {
     res.status(201).json(newSession);
 });
 
-// Get a game session by ID
-app.get('/sessions/:id', (req: Request, res: Response):any => {
+// **2. Retrieve details of a specific session**
+app.get('/game-session/:id', (req: Request, res: Response): any => {
     const { id } = req.params;
     const session = getGameSession(id);
 
@@ -33,14 +33,14 @@ app.get('/sessions/:id', (req: Request, res: Response):any => {
     res.json(session);
 });
 
-// List all game sessions
-app.get('/sessions', (_req: Request, res: Response) => {
+// **3. List all game sessions**
+app.get('/game-session', (_req: Request, res: Response) => {
     const allSessions = listGameSessions();
     res.json(allSessions);
 });
 
-// Update a game session's status
-app.patch('/sessions/:id/status', (req: Request, res: Response):any => {
+// **4. Update the status of a session**
+app.patch('/game-session/:id/status', (req: Request, res: Response): any => {
     const { id } = req.params;
     const { status } = req.body;
 
@@ -56,8 +56,8 @@ app.patch('/sessions/:id/status', (req: Request, res: Response):any => {
     }
 });
 
-// Delete a game session
-app.delete('/sessions/:id', (req: Request, res: Response):any => {
+// **5. Delete a game session**
+app.delete('/game-session/:id', (req: Request, res: Response): any => {
     const { id } = req.params;
 
     const deleted = deleteGameSession(id);
