@@ -48,7 +48,17 @@ services:
       volumes:
          - "./scripts:/etc/localstack/scripts" # Point to the new folder for utility scripts
 
-
+   rabbitmq:
+      image: rabbitmq:3-management
+      ports:
+         - "5672:5672"   # Default RabbitMQ port
+         - "15672:15672" # Management UI
+      environment:
+         RABBITMQ_DEFAULT_USER: guest
+         RABBITMQ_DEFAULT_PASS: guest
+      networks:
+         - backend
+         
    redis:
       image: redis:latest
       ports:
