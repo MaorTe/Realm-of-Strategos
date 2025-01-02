@@ -1,9 +1,10 @@
 {
    "name": "@maorte/strategos-services-common-package",
-   "version": "1.0.3",
+   "version": "1.0.4",
    "main": "dist/config.js",
    "types": "types",
    "scripts": {
+      "build": "npm install && tsc",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "keywords": [],
