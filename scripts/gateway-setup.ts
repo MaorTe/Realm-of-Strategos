@@ -69,6 +69,9 @@ const setupAPIGateway = async () => {
     await addServiceRoute('auth', 'http://auth-service:3000');
     await addServiceRoute('matchmaking', 'http://matchmaking-service:3002');
     await addServiceRoute('game-session', 'http://game-session-service:3001');
+    // await addServiceRoute('api-docs/auth', 'http://auth-service:3000/api-docs');
+    // await addServiceRoute('api-docs/game-session', 'http://game-session-service:3001/api-docs');
+    // await addServiceRoute('api-docs/game-session', 'http://game-session-service:3002/api-docs');
 
     console.log('API Gateway setup complete!');
   } catch (error) {

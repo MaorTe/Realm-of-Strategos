@@ -37,6 +37,7 @@ const swaggerOptions = {
             },
           },
         },
+
         LoginRequest: {
           type: 'object',
           properties: {
@@ -51,6 +52,7 @@ const swaggerOptions = {
           },
           required: ['username', 'password'],
         },
+        
         LoginResponse: {
           type: 'object',
           properties: {
