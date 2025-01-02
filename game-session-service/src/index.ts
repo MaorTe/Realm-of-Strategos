@@ -16,4 +16,5 @@ app.use('/game-session', gameSessionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Game Session Service is running on port ${PORT}`);
+  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

@@ -1,23 +1,23 @@
-import AWS from 'aws-sdk';
-import dotenv from 'dotenv';
+import AWS from "aws-sdk";
+import dotenv from "dotenv";
 
 dotenv.config();
 
 // Configure AWS SDK for LocalStack
 const apiGateway = new AWS.APIGateway({
-  endpoint: process.env.LOCALSTACK_URL || 'http://localhost:4566',
-  region: 'us-east-1',
-  accessKeyId: 'test',
-  secretAccessKey: 'test',
+  endpoint: process.env.LOCALSTACK_URL || "http://localhost:4566",
+  region: "us-east-1",
+  accessKeyId: "test",
+  secretAccessKey: "test",
 });
 
 const setupAPIGateway = async () => {
-  try {    
+  try {
     // Create the API Gateway
     const api = await apiGateway
-      .createRestApi({ name: 'Realm-of-Strategos-Gateway' })
+      .createRestApi({ name: "Realm-of-Strategos-Gateway" })
       .promise();
-    console.log('API Created:', api);
+    console.log("API Created:", api);
 
     // Get the root resource ID
     const resources = await apiGateway
@@ -25,8 +25,18 @@ const setupAPIGateway = async () => {
       .promise();
     const rootId = resources.items?.[0].id;
     if (!rootId) {
-      throw new Error('Root resource ID not found.');
+      throw new Error("Root resource ID not found.");
     }
+
+    // Services and their URIs
+    const services = [
+      { path: "auth", uri: "http://auth-service:3000" },
+      { path: "matchmaking", uri: "http://matchmaking-service:3002" },
+      { path: "game-session", uri: "http://game-session-service:3001" },
+      { path: "api-docs/auth", uri: "http://auth-service:3000/api-docs" },
+      {path: "api-docs/matchmaking",uri: "http://matchmaking-service:3002/api-docs",},
+      {path: "api-docs/game-session",uri: "http://game-session-service:3001/api-docs",},
+    ];
 
     // Helper function to add resources and methods
     const addServiceRoute = async (path: string, serviceUri: string) => {
@@ -45,8 +55,8 @@ const setupAPIGateway = async () => {
         .putMethod({
           restApiId: api.id!,
           resourceId: resource.id!,
-          httpMethod: 'ANY',
-          authorizationType: 'NONE',
+          httpMethod: "ANY",
+          authorizationType: "NONE",
         })
         .promise();
 
@@ -55,9 +65,9 @@ const setupAPIGateway = async () => {
         .putIntegration({
           restApiId: api.id!,
           resourceId: resource.id!,
-          httpMethod: 'ANY',
-          type: 'HTTP',
-          integrationHttpMethod: 'ANY',
+          httpMethod: "ANY",
+          type: "HTTP",
+          integrationHttpMethod: "ANY",
           uri: serviceUri,
         })
         .promise();
@@ -65,17 +75,14 @@ const setupAPIGateway = async () => {
       console.log(`${path} route integrated with ${serviceUri}`);
     };
 
-    // Add routes for each service
-    await addServiceRoute('auth', 'http://auth-service:3000');
-    await addServiceRoute('matchmaking', 'http://matchmaking-service:3002');
-    await addServiceRoute('game-session', 'http://game-session-service:3001');
-    // await addServiceRoute('api-docs/auth', 'http://auth-service:3000/api-docs');
-    // await addServiceRoute('api-docs/game-session', 'http://game-session-service:3001/api-docs');
-    // await addServiceRoute('api-docs/game-session', 'http://game-session-service:3002/api-docs');
+    // Add routes for all services
+    for (const service of services) {
+      await addServiceRoute(service.path, service.uri);
+    }
 
-    console.log('API Gateway setup complete!');
+    console.log("API Gateway setup complete!");
   } catch (error) {
-    console.error('Error setting up API Gateway:', error);
+    console.error("Error setting up API Gateway:", error);
   }
 };
 
