@@ -5,6 +5,7 @@ const wss = new WebSocketServer({ port: 3003 });
 console.log('WebSocket Server running on port 3003');
 
 export const broadcastMessage = (message: object): void => {
+  console.log('Broadcasting message:', message); // <-- Log here
   wss.clients.forEach((client) => {
     if (client.readyState === client.OPEN) {
       client.send(JSON.stringify(message));

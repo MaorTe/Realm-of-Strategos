@@ -3,6 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './docs/swaggerConfig';
 import gameSessionRoutes from './routes/gameSessionRoutes';
 import { startGameSessionConsumer } from './consumers/gameSessionConsumer';
+import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
 
 const app = express();
 app.use(express.json());
@@ -20,6 +21,6 @@ startGameSessionConsumer().catch((error) => {
 });
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Game Session Service is running on port ${PORT}`);
-  console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
+  logger.info(`Game Session Service is running on port ${PORT}`);
+  logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

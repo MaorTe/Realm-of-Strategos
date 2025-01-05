@@ -1,6 +1,6 @@
 {
    "name": "@maorte/strategos-services-common-package",
-   "version": "1.0.4",
+   "version": "1.0.5",
    "main": "dist/config.js",
    "types": "types",
    "scripts": {
@@ -15,7 +15,9 @@
       "amqplib": "^0.10.5",
       "axios": "^1.7.7",
       "dotenv": "^16.4.5",
-      "express": "^4.21.1"
+      "express": "^4.21.1",
+      "winston": "^3.17.0",
+      "winston-daily-rotate-file": "^5.0.0"
    },
    "devDependencies": {
       "@types/amqplib": "^0.10.6",
