@@ -33,7 +33,6 @@ const swaggerOptions = {
             },
           },
         },
-
         GameSession: {
           type: 'object',
           properties: {
@@ -55,7 +54,6 @@ const swaggerOptions = {
             },
           },
         },
-        
         QueueRequest: {
           type: 'object',
           properties: {

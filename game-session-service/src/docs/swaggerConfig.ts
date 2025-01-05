@@ -41,7 +41,6 @@ const swaggerOptions = {
             },
           },
         },
-        
         CreateGameSessionRequest: {
           type: 'object',
           properties: {
@@ -69,7 +68,7 @@ const swaggerOptions = {
       },
     },
   },
-  apis: ['./src/routes/**/*.ts'], // Path to the API annotations
+  apis: ['./src/routes/**/*.ts'], // Path to API annotations
 };
 
 export const swaggerDocs = swaggerJsDoc(swaggerOptions);

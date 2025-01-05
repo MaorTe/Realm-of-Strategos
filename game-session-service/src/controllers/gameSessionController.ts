@@ -2,40 +2,53 @@ import { Request, Response } from 'express';
 import {
   createGameSession,
   getGameSession,
-  updateGameSessionStatus,
   listGameSessions,
+  updateGameSessionStatus,
   deleteGameSession,
 } from '../services/gameSessionService';
 
-export const createSession = (req: Request, res: Response): void => {
+export const createSession = async (req: Request, res: Response): Promise<void> => {
   const { players } = req.body;
   if (!Array.isArray(players) || players.some((p: any) => typeof p !== 'string')) {
     res.status(400).json({ error: 'Invalid players array' });
     return;
   }
 
-  const newSession = createGameSession(players);
-  res.status(201).json(newSession);
-};
-
-export const retrieveSession = (req: Request, res: Response): void => {
-  const { id } = req.params;
-  const session = getGameSession(id);
-
-  if (!session) {
-    res.status(404).json({ error: 'Session not found' });
-    return;
+  try {
+    const newSession = await createGameSession(players);
+    res.status(201).json(newSession);
+  } catch (error) {
+    console.error('Failed to create session:', error);
+    res.status(500).json({ error: 'Failed to create session' });
   }
-
-  res.json(session);
 };
 
-export const listSessions = (_req: Request, res: Response): void => {
-  const allSessions = listGameSessions();
-  res.json(allSessions);
+export const retrieveSession = async (req: Request, res: Response): Promise<void> => {
+  const { id } = req.params;
+  try {
+    const session = await getGameSession(id);
+    if (!session) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+    res.json(session);
+  } catch (error) {
+    console.error('Failed to retrieve session:', error);
+    res.status(500).json({ error: 'Failed to retrieve session' });
+  }
 };
 
-export const updateSessionStatus = (req: Request, res: Response): void => {
+export const listSessions = async (_req: Request, res: Response): Promise<void> => {
+  try {
+    const allSessions = await listGameSessions();
+    res.json(allSessions);
+  } catch (error) {
+    console.error('Failed to list sessions:', error);
+    res.status(500).json({ error: 'Failed to list sessions' });
+  }
+};
+
+export const updateSessionStatus = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -45,21 +58,26 @@ export const updateSessionStatus = (req: Request, res: Response): void => {
   }
 
   try {
-    updateGameSessionStatus(id, status);
+    await updateGameSessionStatus(id, status);
     res.json({ message: 'Status updated successfully' });
   } catch (error) {
-    res.status(404).json({ error: 'Session not found' });
+    console.error('Failed to update session status:', error);
+    res.status(500).json({ error: 'Failed to update session status' });
   }
 };
 
-export const deleteSession = (req: Request, res: Response): void => {
+export const deleteSession = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 
-  const deleted = deleteGameSession(id);
-  if (!deleted) {
-    res.status(404).json({ error: 'Session not found' });
-    return;
+  try {
+    const deleted = await deleteGameSession(id);
+    if (!deleted) {
+      res.status(404).json({ error: 'Session not found' });
+      return;
+    }
+    res.status(204).send();
+  } catch (error) {
+    console.error('Failed to delete session:', error);
+    res.status(500).json({ error: 'Failed to delete session' });
   }
-
-  res.status(204).send();
 };

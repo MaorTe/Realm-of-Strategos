@@ -26,6 +26,10 @@ const swaggerOptions = {
               type: 'string',
               description: 'Username of the user',
             },
+            password: {
+              type: 'string',
+              description: 'Password of the user',
+            },
             email: {
               type: 'string',
               description: 'Email of the user (optional)',

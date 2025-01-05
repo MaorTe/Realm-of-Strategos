@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { queuePlayer, getMatch } from '../controllers/matchmakingController';
+import { queuePlayer, findMatchAndPublish, findMatchAndNotify } from '../controllers/matchmakingController';
 
 const router = Router();
 
@@ -28,25 +28,36 @@ router.post('/queue', queuePlayer);
 
 /**
  * @swagger
- * /matchmaking/match:
+ * /matchmaking/match/publish:
  *   get:
- *     summary: Find a match for players in the queue
+ *     summary: Find a match and publish to RabbitMQ
  *     tags:
  *       - Matchmaking
  *     responses:
  *       200:
- *         description: Match found
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Player'
+ *         description: Match found and published to RabbitMQ
  *       404:
  *         description: No match found
  *       500:
- *         description: Failed to find match
+ *         description: Failed to find or publish match
  */
-router.get('/match', getMatch);
+router.get('/match/publish', findMatchAndPublish);
+
+/**
+ * @swagger
+ * /matchmaking/match/notify:
+ *   get:
+ *     summary: Find a match and notify clients via WebSocket
+ *     tags:
+ *       - Matchmaking
+ *     responses:
+ *       200:
+ *         description: Match found and clients notified via WebSocket
+ *       404:
+ *         description: No match found
+ *       500:
+ *         description: Failed to find match or notify clients
+ */
+router.get('/match/notify', findMatchAndNotify);
 
 export default router;

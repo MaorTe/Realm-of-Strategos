@@ -34,8 +34,8 @@ const setupAPIGateway = async () => {
       { path: "matchmaking", uri: "http://matchmaking-service:3002" },
       { path: "game-session", uri: "http://game-session-service:3001" },
       { path: "api-docs/auth", uri: "http://auth-service:3000/api-docs" },
-      {path: "api-docs/matchmaking",uri: "http://matchmaking-service:3002/api-docs",},
-      {path: "api-docs/game-session",uri: "http://game-session-service:3001/api-docs",},
+      { path: "api-docs/matchmaking",uri: "http://matchmaking-service:3002/api-docs",},
+      { path: "api-docs/game-session",uri: "http://game-session-service:3001/api-docs",},
     ];
 
     // Helper function to add resources and methods
