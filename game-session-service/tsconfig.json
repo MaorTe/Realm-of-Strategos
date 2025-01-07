@@ -16,12 +16,7 @@
       "baseUrl": ".",
 
       "sourceMap": true,
-      "paths": {
-         "@maorte/strategos-services-common-package/types/*": [
-            "../node_modules/@maorte/strategos-services-common-package/types/*"
-         ]
-      }
    },
-   "include": ["src/**/*.ts"], // Include all TypeScript files
+   "include": ["src/**/*", "__tests__/**/*"],
    "exclude": ["node_modules", "dist"]
 }

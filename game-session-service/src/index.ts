@@ -5,7 +5,7 @@ import gameSessionRoutes from './routes/gameSessionRoutes';
 import { startGameSessionConsumer } from './consumers/gameSessionConsumer';
 import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
 
-const app = express();
+export const app = express();
 app.use(express.json());
 
 
