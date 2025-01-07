@@ -4,7 +4,8 @@
   "main": "gateway-setup.ts",
   "scripts": {
     "build": "npm install && tsc",
-    "setup:gateway": "ts-node gateway-setup.ts"
+    "setup:gateway": "ts-node gateway-setup.ts",
+    "test": "jest"
   },
   "keywords": [
     "localstack",

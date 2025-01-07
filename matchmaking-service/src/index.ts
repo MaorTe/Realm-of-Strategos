@@ -6,7 +6,7 @@ import matchmakingRoutes from './routes/matchmakingRoutes';
 import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
 
 dotenv.config();
-const app = express();
+export const app = express();
 app.use(express.json());
 
 // Serve Swagger documentation
