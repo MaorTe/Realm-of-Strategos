@@ -4,7 +4,7 @@ import { swaggerDocs } from './docs/swaggerConfig';
 import authRoutes from './routes/authRoutes';
 import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
 
-const app = express();
+export const app = express();
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
