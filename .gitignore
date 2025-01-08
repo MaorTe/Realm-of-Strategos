@@ -161,4 +161,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-.codegpt
+# Ignore load test results
+.load-tests/results/

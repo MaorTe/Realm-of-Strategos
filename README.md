@@ -92,7 +92,7 @@ npm test
 
 cd game-session-service
 npm test
-
+```
 ---
 ### Load Testing
 Simulate high traffic with Artillery:
