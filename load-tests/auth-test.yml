@@ -1,21 +1,25 @@
 config:
-  target: "http://localhost:3000" # Adjust to your auth-service port
+  target: "http://localhost:3000"
   phases:
-    - duration: 60  # Run the test for 60 seconds
-      arrivalRate: 5  # 5 requests per second
+    - duration: 60
+      arrivalRate: 5
 scenarios:
-  - flow:
+  - name: "Register, Login, and Validate User"
+    flow:
       - post:
           url: "/auth/register"
           json:
             username: "user{{ $randomInt(1, 1000) }}"
-            password: "password123"
+            password: "password{{ $randomInt(1, 1000) }}"
       - post:
           url: "/auth/login"
           json:
             username: "user{{ $randomInt(1, 1000) }}"
-            password: "password123"
+            password: "password{{ $randomInt(1, 1000) }}"
+          capture:
+            - as: "authToken"
+              from: "json.token"
       - get:
           url: "/auth/validate"
-          json:
-            token: "fake_token_{{ $randomInt(1, 1000) }}" # Simulate token validation
+          headers:
+            Authorization: "Bearer {{ authToken }}"

@@ -1,21 +1,25 @@
 config:
-  target: "http://localhost:3001" # Adjust to your game-session-service port
+  target: "http://localhost:3001"
   phases:
     - duration: 60  # Run the test for 60 seconds
       arrivalRate: 8  # 8 requests per second
 scenarios:
-  - flow:
+  - name: "Game Session Lifecycle"
+    flow:
       - post:
           url: "/game-session/create"
           json:
             players:
               - "player{{ $randomInt(1, 1000) }}"
               - "player{{ $randomInt(1001, 2000) }}"
+          capture:
+            - as: "sessionId"
+              from: "json.id"
       - get:
-          url: "/game-session/{{ $randomString }}"
+          url: "/game-session/{{ sessionId }}"
       - patch:
-          url: "/game-session/{{ $randomString }}/status"
+          url: "/game-session/{{ sessionId }}/status"
           json:
             status: "active"
       - delete:
-          url: "/game-session/{{ $randomString }}"
+          url: "/game-session/{{ sessionId }}"

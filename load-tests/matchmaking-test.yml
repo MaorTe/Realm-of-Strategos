@@ -4,11 +4,15 @@ config:
     - duration: 60  # Run the test for 60 seconds
       arrivalRate: 10  # 10 requests per second
 scenarios:
-  - flow:
+  - name: "Matchmaking Flow"
+    flow:
       - post:
           url: "/matchmaking/queue"
           json:
-            id: "{{ $randomString }}"
+            id: "player{{ $randomInt(1, 1000) }}"
             skill: "{{ $randomInt(1, 100) }}"
       - get:
           url: "/matchmaking/match"
+          capture:
+            - as: "matchDetails"
+              from: "json.match"
