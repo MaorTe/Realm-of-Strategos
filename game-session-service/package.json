@@ -6,7 +6,7 @@
       "build": "npm install && tsc",
       "start": "node src/index.ts",
       "dev": "npx nodemon --signal SIGINT --inspect=0.0.0.0:9230 --nolazy src/index.ts",
-      "test": "jest"
+      "test": "jest --passWithNoTests --config jest.config.ts"
    },
    "keywords": [],
    "author": "",

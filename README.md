@@ -1,22 +1,50 @@
-# Realm of Strategos - Game Backend Microservices
+# Realm-of-Strategos
 
-## Project Overview
-**Realm of Strategos** is a backend architecture for a strategy-based game that demonstrates high-scale, real-time microservices communication. This project consists of two primary microservices:
-- **Auth-Service**: Manages user authentication and authorization.
-- **Game-Session-Service**: Handles game session management, including creation and retrieval of session data.
+## Overview
+Realm-of-Strategos is a backend microservices-based system for managing real-time multiplayer game sessions. It includes user authentication, player matchmaking, and game session management.
 
-The project is containerized using Docker and Docker Compose, making it straightforward to deploy and scale. It’s developed with TypeScript, Node.js, and Express.
+### Architecture
+The project uses:
+- **Auth-Service**: Handles user registration, login, and authentication.
+- **Matchmaking-Service**: Matches players based on skill levels and manages game session assignments.
+- **Game-Session-Service**: Manages game session lifecycle.
 
-## Prerequisites
-To run **Realm of Strategos**, ensure the following installations:
-- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Docker Compose**: [Install Docker Compose](https://docs.docker.com/compose/install/)
+### Technologies
+- **Backend**: Node.js, TypeScript
+- **Databases**: Redis
+- **Messaging**: RabbitMQ
+- **Documentation**: Swagger
+- **Testing**: Jest
+- **Logging**: Winston
+- **Orchestration**: Docker Compose
 
-## Directory Structure
-The project structure is as follows:
-```plaintext
-Realm-of-Strategos/
-├── auth-service/          # Auth microservice
-├── game-session-service/  # Game session microservice
-├── common/                # Shared code and middleware
-└── docker-compose.yml     # Docker Compose for orchestration
+---
+
+## How to Run Locally
+1. **Clone the Repository**:
+    ```bash
+    git clone <repository-url>
+    cd Realm-of-Strategos
+    ```
+
+2. **Set up Environment Variables**:
+   Update `.env` files for each service.
+
+3. **Start Services**:
+   Run Docker Compose:
+    ```bash
+    docker-compose up --build
+    ```
+
+4. **View Swagger Docs**:
+   Each service provides its own Swagger documentation:
+   - Auth-Service: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+   - Matchmaking-Service: [http://localhost:3002/api-docs](http://localhost:3002/api-docs)
+   - Game-Session-Service: [http://localhost:3001/api-docs](http://localhost:3001/api-docs)
+
+---
+
+## Testing
+Run all tests:
+```bash
+npm test
