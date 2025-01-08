@@ -5,7 +5,13 @@
 
 ---
 
-### Architecture
+## Architecture Diagram
+
+![Realm-of-Strategos Architecture](./project-diagrams/project-diagram.png)
+
+---
+
+## Architecture
 This project leverages a distributed microservices architecture:
 - **Auth-Service**: Handles user registration, login, and authentication with JWT.
 - **Matchmaking-Service**: Matches players based on skill levels and assigns them to game sessions.
