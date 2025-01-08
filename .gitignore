@@ -162,4 +162,4 @@ dist
 .pnp.*
 
 # Ignore load test results
-.load-tests/results/
+load-tests/results/*
