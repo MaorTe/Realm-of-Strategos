@@ -1,8 +1,8 @@
 import { GameSession } from '../models/gameSession';
 import { v4 as uuidv4 } from 'uuid';
 import Redis from 'ioredis';
-import { query } from '@maorte/strategos-services-common-package/src/database';
-import logger from '@maorte/strategos-services-common-package/src/logger';
+import { query } from '@maorte/strategos-services-common-package/dist/database';
+import { logger } from '@maorte/strategos-services-common-package/dist/logger';
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',

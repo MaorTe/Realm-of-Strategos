@@ -1,5 +1,5 @@
 import Redis from 'ioredis';
-import { query } from '@maorte/strategos-services-common-package/src/database';
+import { query } from '@maorte/strategos-services-common-package/dist/database';
 import { Player } from '../models/player';
 
 const redis = new Redis({

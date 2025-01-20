@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { query } from '@maorte/strategos-services-common-package/src/database';
-import logger from '@maorte/strategos-services-common-package/src/logger';
+import { query } from '@maorte/strategos-services-common-package/dist/database';
 import { User } from '../models/user';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';

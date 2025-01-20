@@ -13,7 +13,7 @@
    "license": "ISC",
    "description": "",
    "dependencies": {
-      "@maorte/strategos-services-common-package": "^1.0.5",
+      "@maorte/strategos-services-common-package": "^1.0.7",
       "express": "^4.21.2",
       "ioredis": "^5.4.2",
       "swagger-jsdoc": "^6.2.8",
