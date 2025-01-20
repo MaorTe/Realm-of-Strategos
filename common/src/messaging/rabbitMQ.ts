@@ -1,5 +1,5 @@
 import amqp, { Connection, Channel } from 'amqplib';
-
+import logger from '../logger/logger';
 let connection: Connection | null = null;
 let channel: Channel | null = null;
 
@@ -7,7 +7,7 @@ let channel: Channel | null = null;
 export const createRabbitMQConnection = async (): Promise<Connection> => {
   if (!connection) {
     connection = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://guest:guest@rabbitmq:5672');
-    console.log('RabbitMQ connection established');
+    logger.info('RabbitMQ connection established');
   }
   return connection;
 };
@@ -17,7 +17,7 @@ export const createRabbitMQChannel = async (): Promise<Channel> => {
   if (!channel) {
     const conn = await createRabbitMQConnection();
     channel = await conn.createChannel();
-    console.log('RabbitMQ channel created');
+    logger.info('RabbitMQ channel created');
   }
   return channel;
 };
@@ -26,12 +26,12 @@ export const createRabbitMQChannel = async (): Promise<Channel> => {
 export const closeRabbitMQConnection = async (): Promise<void> => {
   if (channel) {
     await channel.close();
-    console.log('RabbitMQ channel closed');
+    logger.info('RabbitMQ channel closed');
     channel = null;
   }
   if (connection) {
     await connection.close();
-    console.log('RabbitMQ connection closed');
+    logger.info('RabbitMQ connection closed');
     connection = null;
   }
 };

@@ -1,4 +1,5 @@
 import Redis from 'ioredis';
+import { query } from '@maorte/strategos-services-common-package/src/database';
 import { Player } from '../models/player';
 
 const redis = new Redis({
@@ -9,9 +10,7 @@ const redis = new Redis({
 const SKILL_THRESHOLD = parseInt(process.env.SKILL_THRESHOLD || '50', 10);
 
 export const addPlayerToQueue = async (player: Player): Promise<void> => {
-  const playerWithTimestamp = { ...player, timestamp: Date.now() };
-  await redis.zadd('matchmaking_queue', player.skill, JSON.stringify(playerWithTimestamp));
-  console.log(`Player added to queue: ${JSON.stringify(playerWithTimestamp)}`);
+  await redis.zadd('matchmaking_queue', player.skill, JSON.stringify(player));
 };
 
 export const findMatch = async (): Promise<Player[] | null> => {
@@ -22,7 +21,13 @@ export const findMatch = async (): Promise<Player[] | null> => {
 
     if (Math.abs(player1.skill - player2.skill) <= SKILL_THRESHOLD) {
       await redis.zrem('matchmaking_queue', allPlayers[i], allPlayers[i + 1]);
-      console.log(`Match found: ${JSON.stringify([player1, player2])}`);
+
+      // Save match in PostgreSQL
+      await query('INSERT INTO matches (players, created_at) VALUES ($1, $2)', [
+        JSON.stringify([player1, player2]),
+        new Date(),
+      ]);
+
       return [player1, player2];
     }
   }

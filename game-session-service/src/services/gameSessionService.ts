@@ -1,16 +1,14 @@
 import { GameSession } from '../models/gameSession';
 import { v4 as uuidv4 } from 'uuid';
 import Redis from 'ioredis';
+import { query } from '@maorte/strategos-services-common-package/src/database';
+import logger from '@maorte/strategos-services-common-package/src/logger';
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',
   port: parseInt(process.env.REDIS_PORT || '6379', 10),
 });
 
-// In-memory storage as a fallback
-const gameSessions: Record<string, GameSession> = {};
-
-// Create a new game session
 export const createGameSession = async (playerIds: string[]): Promise<GameSession> => {
   const sessionId = uuidv4();
   const newSession: GameSession = {
@@ -20,90 +18,62 @@ export const createGameSession = async (playerIds: string[]): Promise<GameSessio
     createdAt: new Date(),
   };
 
-  // Persist the session in Redis with expiration
   try {
-    await redis.set(`game_session:${sessionId}`, JSON.stringify(newSession), 'EX', 86400);
-    console.log(`Game session persisted in Redis: ${JSON.stringify(newSession)}`);
+    await redis.set(`game_session:${sessionId}`, JSON.stringify(newSession), 'EX', 86400); // Cache in Redis
+    await query(
+      'INSERT INTO game_sessions (id, players, status, created_at) VALUES ($1, $2, $3, $4)',
+      [sessionId, JSON.stringify(playerIds), 'waiting', newSession.createdAt]
+    ); // Persist in PostgreSQL
   } catch (error) {
-    console.error('Failed to persist game session in Redis:', error);
-    gameSessions[sessionId] = newSession; // Fallback to in-memory
+    logger.error('Error creating game session:', error);
+    throw error;
   }
 
   return newSession;
 };
 
-// Get a specific game session
 export const getGameSession = async (sessionId: string): Promise<GameSession | undefined> => {
   try {
-    const session = await redis.get(`game_session:${sessionId}`);
-    if (session) {
-      return JSON.parse(session) as GameSession;
+    const cachedSession = await redis.get(`game_session:${sessionId}`);
+    if (cachedSession) {
+      return JSON.parse(cachedSession) as GameSession;
     }
+
+    const dbSession = await query('SELECT * FROM game_sessions WHERE id = $1', [sessionId]);
+    return dbSession.length > 0 ? dbSession[0] : undefined;
   } catch (error) {
-    console.error(`Failed to retrieve session from Redis: ${error}`);
+    logger.error('Error fetching game session:', error);
+    throw error;
   }
-  return gameSessions[sessionId]; // Fallback to in-memory
 };
 
-// List all game sessions
-export const listGameSessions = async (): Promise<GameSession[]> => {
-  try {
-    const keys = await redis.keys('game_session:*');
-    const sessions = await Promise.all(
-      keys.map(async (key: string) => {
-        const session = await redis.get(key);
-        return session ? (JSON.parse(session) as GameSession) : null;
-      })
-    );
-    return sessions.filter((session): session is GameSession => session !== null);
-  } catch (error) {
-    console.error('Failed to list sessions from Redis:', error);
-  }
-  return Object.values(gameSessions); // Fallback to in-memory
-};
-
-// Update session status
-export const updateGameSessionStatus = async (
-  sessionId: string,
-  status: GameSession['status']
-): Promise<void> => {
+export const updateGameSessionStatus = async (sessionId: string, status: GameSession['status']): Promise<void> => {
   try {
     const session = await getGameSession(sessionId);
     if (!session) {
       throw new Error(`Game session ${sessionId} not found.`);
     }
+
     session.status = status;
 
-    // Persist updated session
-    await redis.set(`game_session:${sessionId}`, JSON.stringify(session), 'EX', 86400);
-    console.log(`Game session ${sessionId} updated to status: ${status}`);
+    await redis.set(`game_session:${sessionId}`, JSON.stringify(session), 'EX', 86400); // Update cache
+    await query('UPDATE game_sessions SET status = $1 WHERE id = $2', [status, sessionId]); // Update DB
   } catch (error) {
-    console.error('Failed to update session status in Redis:', error);
-    if (gameSessions[sessionId]) {
-      gameSessions[sessionId].status = status;
-    } else {
-      throw new Error(`Game session ${sessionId} not found in memory.`);
-    }
+    logger.error('Error updating game session status:', error);
+    throw error;
   }
 };
 
-// Delete a game session
 export const deleteGameSession = async (sessionId: string): Promise<boolean> => {
   try {
-    const deletedCount = await redis.del(`game_session:${sessionId}`);
+    const deletedCount = await redis.del(`game_session:${sessionId}`); // Remove from cache
     if (deletedCount > 0) {
-      console.log(`Game session ${sessionId} deleted from Redis.`);
+      await query('DELETE FROM game_sessions WHERE id = $1', [sessionId]); // Remove from DB
       return true;
     }
+    return false;
   } catch (error) {
-    console.error(`Failed to delete session from Redis: ${error}`);
+    logger.error('Error deleting game session:', error);
+    throw error;
   }
-
-  if (gameSessions[sessionId]) {
-    delete gameSessions[sessionId];
-    console.log(`Game session ${sessionId} deleted from in-memory storage.`);
-    return true;
-  }
-
-  return false;
 };

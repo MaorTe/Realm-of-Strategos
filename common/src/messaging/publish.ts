@@ -1,4 +1,5 @@
 import { createRabbitMQChannel, closeRabbitMQConnection } from './rabbitMQ';
+import logger from '../logger/logger';
 
 export const publishMessage = async (queue: string, message: any): Promise<void> => {
   const channel = await createRabbitMQChannel();
@@ -6,9 +7,9 @@ export const publishMessage = async (queue: string, message: any): Promise<void>
 
   try {
     channel.sendToQueue(queue, Buffer.from(JSON.stringify(message)));
-    console.log(`Message published to queue "${queue}":`, message);
+    logger.info(`Message published to queue "${queue}":`, message);
   } catch (error) {
-    console.error('Error publishing message:', error);
+    logger.error('Error publishing message:', error);
   }
 
   // Optional: Close the connection after publishing if it's a one-off task

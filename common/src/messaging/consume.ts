@@ -1,4 +1,5 @@
 import { createRabbitMQChannel, closeRabbitMQConnection } from './rabbitMQ';
+import logger from '../logger/logger';
 
 export const consumeMessages = async (
   queue: string,
@@ -14,14 +15,14 @@ export const consumeMessages = async (
         onMessage(messageContent);
         channel.ack(msg);
       } catch (error) {
-        console.error('Error processing message:', error);
+        logger.error('Error processing message:', error);
         channel.nack(msg, false, false); // Reject message without requeueing
       }
     }
   });
 
   process.on('SIGINT', async () => {
-    console.log('Closing RabbitMQ connection due to SIGINT');
+    logger.info('Closing RabbitMQ connection due to SIGINT');
     await closeRabbitMQConnection();
     process.exit(0);
   });
