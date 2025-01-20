@@ -9,6 +9,7 @@ services:
          - backend
       depends_on:
          - redis
+         - postgres
 
    game-session-service:
       build:
@@ -20,6 +21,7 @@ services:
          - backend
       depends_on:
          - redis
+         - postgres
       command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9230 --nolazy "src/index.ts" # Run the debug script with Nodemon
 
    matchmaking-service:
@@ -34,6 +36,7 @@ services:
          - backend
       depends_on:
          - redis
+         - postgres
       command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9229 --nolazy "src/index.ts" # Run the debug script with Nodemon
    
    localstack:
@@ -73,9 +76,24 @@ services:
       volumes:
          - redis-data:/data
 
+   postgres:
+      image: postgres:latest
+      container_name: postgres
+      environment:
+         POSTGRES_USER: postgres
+         POSTGRES_PASSWORD: password
+         POSTGRES_DB: game_sessions
+      ports:
+         - '5432:5432'
+      volumes:
+         - pg-data:/var/lib/postgresql/data
+      networks:
+         - backend
+
 networks:
    backend:
       driver: bridge
       
 volumes:
    redis-data:
+   pg-data:
