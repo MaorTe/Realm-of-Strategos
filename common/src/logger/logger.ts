@@ -1,4 +1,3 @@
-// common/src/utils/logger.ts
 import { createLogger, format, transports } from 'winston';
 
 // Define custom log format
@@ -8,18 +7,17 @@ const customFormat = format.printf(({ level, message, timestamp, stack }) => {
 
 // Create logger instance
 const logger = createLogger({
-  level: process.env.LOG_LEVEL || 'info', // Default log level
+  level: process.env.LOG_LEVEL || 'info',
   format: format.combine(
     format.colorize(),
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    format.errors({ stack: true }), // Capture stack traces for errors
+    format.errors({ stack: true }),
     customFormat
   ),
   transports: [
-    new transports.Console(), // Log to console
-    new transports.File({ filename: 'logs/app.log', level: 'info' }), // Log to file
+    new transports.Console(), // Console logging
+    new transports.File({ filename: 'logs/app.log', level: 'info' }) // File logging
   ],
 });
 
-// Export logger
 export default logger;
