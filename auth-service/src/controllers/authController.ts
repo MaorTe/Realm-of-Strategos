@@ -38,13 +38,3 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     res.status(409).json({ error });
   }
 };
-
-export const validate = (req: Request, res: Response): void => {
-  try {
-    const { token } = req.body;
-    const decoded = validateToken(token);
-    res.json({ valid: true, user: decoded });
-  } catch (error) {
-    res.status(401).json({ valid: false, message: error });
-  }
-};

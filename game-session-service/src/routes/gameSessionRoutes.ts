@@ -6,45 +6,7 @@ import {
   updateSessionStatus,
   deleteSession,
 } from '../controllers/gameSessionController';
-//import { authMiddleware } from '@maorte/strategos-services-common-package/dist/middleware/authMiddleware';
-
-import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
-import { query } from '@maorte/strategos-services-common-package/dist/database';
-import { User } from '@maorte/strategos-services-common-package/dist/models/user';
-
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
-
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      res.status(403).json({ message: 'No token provided' });
-      return;
-    }
-
-    const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, SECRET_KEY) as jwt.JwtPayload;
-
-    // Query the database for the user
-    const userQuery = 'SELECT * FROM users WHERE id = $1 LIMIT 1';
-    const users : User[] = await query(userQuery, [decoded.id]); // Use your query helper
-    const user: User = users[0];
-
-    if (!user) {
-      res.status(401).json({ message: 'User not found' });
-      return;
-    }
-
-    // Attach user and token to the request for downstream use
-    (req as any).user = user;
-    (req as any).token = token;
-    next(); // Pass control to the next middleware or route handler
-  } catch (error) {
-    res.status(401).json({ message: 'Unauthorized', error });
-  }
-};
-
+import { authMiddleware } from '@maorte/strategos-services-common-package/dist/middleware';
 
 const router = Router();
 
@@ -97,7 +59,7 @@ router.post('/create', authMiddleware, createSession);
  *       404:
  *         description: Session not found
  */
-router.get('/:id', retrieveSession);
+router.get('/:id', authMiddleware, retrieveSession);
 
 /**
  * @swagger
@@ -116,7 +78,7 @@ router.get('/:id', retrieveSession);
  *               items:
  *                 $ref: '#/components/schemas/GameSession'
  */
-router.get('/', listSessions);
+router.get('/', authMiddleware, listSessions);
 
 /**
  * @swagger
@@ -146,7 +108,7 @@ router.get('/', listSessions);
  *       404:
  *         description: Session not found
  */
-router.patch('/:id/status', updateSessionStatus);
+router.patch('/:id/status', authMiddleware, updateSessionStatus);
 
 /**
  * @swagger
@@ -168,6 +130,6 @@ router.patch('/:id/status', updateSessionStatus);
  *       404:
  *         description: Session not found
  */
-router.delete('/:id', deleteSession);
+router.delete('/:id', authMiddleware, deleteSession);
 
 export default router;

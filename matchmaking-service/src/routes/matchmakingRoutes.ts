@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { queuePlayer, findMatchAndPublish, findMatchAndNotify } from '../controllers/matchmakingController';
+import { authMiddleware } from '@maorte/strategos-services-common-package/dist/middleware';
 
 const router = Router();
 
@@ -24,7 +25,7 @@ const router = Router();
  *       500:
  *         description: Failed to add player to queue.
  */
-router.post('/queue', queuePlayer);
+router.post('/queue', authMiddleware, queuePlayer);
 
 /**
  * @swagger
@@ -41,7 +42,7 @@ router.post('/queue', queuePlayer);
  *       500:
  *         description: Failed to find or publish match
  */
-router.get('/match/publish', findMatchAndPublish);
+router.get('/match/publish', authMiddleware, findMatchAndPublish);
 
 /**
  * @swagger
@@ -58,6 +59,6 @@ router.get('/match/publish', findMatchAndPublish);
  *       500:
  *         description: Failed to find match or notify clients
  */
-router.get('/match/notify', findMatchAndNotify);
+router.get('/match/notify', authMiddleware, findMatchAndNotify);
 
 export default router;
