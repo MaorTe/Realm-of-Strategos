@@ -47,6 +47,29 @@ export const getGameSession = async (sessionId: string): Promise<GameSession | u
   }
 };
 
+export const listGameSessions = async (): Promise<GameSession[]> => {
+  try {
+    // Check if sessions are cached in Redis
+    const cachedSessions = await redis.get('cached_game_sessions');
+    if (cachedSessions) {
+      logger.info('Retrieved game sessions from Redis cache');
+      return JSON.parse(cachedSessions) as GameSession[];
+    }
+
+    // If not cached, query PostgreSQL
+    const sessions = await query('SELECT * FROM game_sessions');
+    logger.info('Retrieved game sessions from PostgreSQL');
+
+    // Cache the result in Redis
+    await redis.set('cached_game_sessions', JSON.stringify(sessions), 'EX', 3600); // Cache for 1 hour
+
+    return sessions;
+  } catch (error) {
+    logger.error('Failed to list game sessions', { error });
+    throw error;
+  }
+};
+
 export const updateGameSessionStatus = async (sessionId: string, status: GameSession['status']): Promise<void> => {
   try {
     const session = await getGameSession(sessionId);

@@ -55,25 +55,4 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
-/**
- * @swagger
- * /auth/validate:
- *   get:
- *     summary: Validate a JWT token
- *     tags:
- *       - Authentication
- *     parameters:
- *       - in: query
- *         name: token
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Token is valid
- *       401:
- *         description: Invalid token
- */
-router.get('/validate', validate);
-
 export default router;
