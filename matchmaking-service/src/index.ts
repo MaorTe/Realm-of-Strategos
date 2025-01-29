@@ -8,15 +8,16 @@ import logger from '@maorte/strategos-services-common-package/dist/utils/logger'
 dotenv.config();
 export const app = express();
 app.use(express.json());
+const PORT = process.env.MATCH_PORT || 3002;
 
 // Serve Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 // Load routes
 app.use('/matchmaking', matchmakingRoutes);
+// Error Middleware
+// app.use(errorMiddleware);
 
-const port = process.env.MATCH_PORT || 3002;
-app.listen(port, () => {
-  logger.info(`Matchmaking service running on port ${port}`);
-  logger.info(`Swagger docs available at http://localhost:${port}/api-docs`);
+app.listen(PORT, () => {
+  logger.info(`Matchmaking service running on port ${PORT}`);
+  logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

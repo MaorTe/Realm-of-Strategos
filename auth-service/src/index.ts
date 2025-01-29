@@ -6,16 +6,16 @@ import logger from '@maorte/strategos-services-common-package/dist/utils/logger'
 
 export const app = express();
 app.use(express.json());
-
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 // Serve Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 // Load routes with base path
 app.use('/auth', authRoutes);
+// Error Middleware
+// app.use(errorMiddleware);
 
-app.listen(port, () => {
-  logger.info(`Auth Service is running at http://localhost:${port}`);
-  logger.info(`Swagger docs available at http://localhost:${port}/api-docs`);
+app.listen(PORT, () => {
+  logger.info(`Auth Service is running at http://localhost:${PORT}`);
+  logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });

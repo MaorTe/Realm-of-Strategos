@@ -7,19 +7,20 @@ import logger from '@maorte/strategos-services-common-package/dist/utils/logger'
 
 export const app = express();
 app.use(express.json());
-
+const PORT = process.env.PORT || 3001;
 
 // Serve Swagger documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
 // Load routes
 app.use('/game-session', gameSessionRoutes);
+// Error Middleware
+// app.use(errorMiddleware);
 
 // Start RabbitMQ consumer
 startGameSessionConsumer().catch((error) => {
   console.error('Failed to start game session consumer:', error);
 });
-const PORT = process.env.PORT || 3001;
+
 app.listen(PORT, () => {
   logger.info(`Game Session Service is running on port ${PORT}`);
   logger.info(`Swagger docs available at http://localhost:${PORT}/api-docs`);
