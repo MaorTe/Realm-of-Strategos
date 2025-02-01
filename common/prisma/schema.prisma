@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/database/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String  @id @default(uuid())
+  username  String  @unique
+  email     String? // Optional email field
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model GameSession {
+  id        String   @id @default(uuid())
+  players   Json     // Store player info as JSONB
+  status    String   @default("waiting")
+  createdAt DateTime @default(now())
+}
+
+model Matchmaking {
+  id        String   @id @default(uuid())
+  players   Json     // Store matched players
+  createdAt DateTime @default(now())
+}
