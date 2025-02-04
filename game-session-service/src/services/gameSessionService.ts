@@ -1,8 +1,8 @@
-import { GameSession } from '../models/gameSession';
+import { GameSession } from './types';
 import { v4 as uuidv4 } from 'uuid';
 import Redis from 'ioredis';
-import { query } from '@maorte/strategos-services-common-package/dist/database';
 import { logger } from '@maorte/strategos-services-common-package/dist/logger';
+import { GameSessionRepository } from './repository';
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',
@@ -12,18 +12,14 @@ const redis = new Redis({
 export const createGameSession = async (playerIds: string[]): Promise<GameSession> => {
   const sessionId = uuidv4();
   const newSession: GameSession = {
-    id: sessionId,
     players: playerIds,
     status: 'waiting',
-    createdAt: new Date(),
   };
 
   try {
     await redis.set(`game_session:${sessionId}`, JSON.stringify(newSession), 'EX', 86400); // Cache in Redis
-    await query(
-      'INSERT INTO game_sessions (id, players, status, created_at) VALUES ($1, $2, $3, $4)',
-      [sessionId, JSON.stringify(playerIds), 'waiting', newSession.createdAt]
-    ); // Persist in PostgreSQL
+    await GameSessionRepository.createGameSession(newSession); // Persist in PostgreSQL
+    
   } catch (error) {
     logger.error('Error creating game session:', error);
     throw error;
@@ -38,9 +34,8 @@ export const getGameSession = async (sessionId: string): Promise<GameSession | u
     if (cachedSession) {
       return JSON.parse(cachedSession) as GameSession;
     }
-
-    const dbSession = await query('SELECT * FROM game_sessions WHERE id = $1', [sessionId]);
-    return dbSession.length > 0 ? dbSession[0] : undefined;
+    
+    return await GameSessionRepository.getGameSession(sessionId);
   } catch (error) {
     logger.error('Error fetching game session:', error);
     throw error;
@@ -49,20 +44,11 @@ export const getGameSession = async (sessionId: string): Promise<GameSession | u
 
 export const listGameSessions = async (): Promise<GameSession[]> => {
   try {
-    // Check if sessions are cached in Redis
     const cachedSessions = await redis.get('cached_game_sessions');
-    if (cachedSessions) {
-      logger.info('Retrieved game sessions from Redis cache');
-      return JSON.parse(cachedSessions) as GameSession[];
-    }
+    if (cachedSessions) return JSON.parse(cachedSessions) as GameSession[];
 
-    // If not cached, query PostgreSQL
-    const sessions = await query('SELECT * FROM game_sessions');
-    logger.info('Retrieved game sessions from PostgreSQL');
-
-    // Cache the result in Redis
-    await redis.set('cached_game_sessions', JSON.stringify(sessions), 'EX', 3600); // Cache for 1 hour
-
+    const sessions = await GameSessionRepository.listGameSessions();
+    await redis.set('cached_game_sessions', JSON.stringify(sessions), 'EX', 3600);
     return sessions;
   } catch (error) {
     logger.error('Failed to list game sessions', { error });
@@ -78,9 +64,8 @@ export const updateGameSessionStatus = async (sessionId: string, status: GameSes
     }
 
     session.status = status;
-
     await redis.set(`game_session:${sessionId}`, JSON.stringify(session), 'EX', 86400); // Update cache
-    await query('UPDATE game_sessions SET status = $1 WHERE id = $2', [status, sessionId]); // Update DB
+    await GameSessionRepository.updateGameSessionStatus(sessionId, status);
   } catch (error) {
     logger.error('Error updating game session status:', error);
     throw error;
@@ -91,7 +76,7 @@ export const deleteGameSession = async (sessionId: string): Promise<boolean> => 
   try {
     const deletedCount = await redis.del(`game_session:${sessionId}`); // Remove from cache
     if (deletedCount > 0) {
-      await query('DELETE FROM game_sessions WHERE id = $1', [sessionId]); // Remove from DB
+      await GameSessionRepository.deleteGameSession(sessionId); // Remove from DB
       return true;
     }
     return false;

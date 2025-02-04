@@ -23,9 +23,9 @@ export const queuePlayer = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-export const findMatchAndPublish = async (_req: Request, res: Response): Promise<void> => {
+export const findMatchAndPublish = async (req: Request, res: Response): Promise<void> => {
   try {
-    const match = await findMatch();
+    const match = await findMatch(req as any);
     if (match) {
       const queue = 'matchmaking-session';
       await publishMessage(queue, { match });
@@ -41,9 +41,9 @@ export const findMatchAndPublish = async (_req: Request, res: Response): Promise
   }
 };
 
-export const findMatchAndNotify = async (_req: Request, res: Response): Promise<void> => {
+export const findMatchAndNotify = async (req: Request, res: Response): Promise<void> => {
   try {
-    const match = await findMatch();
+    const match = await findMatch(req as any);
     if (match) {
       broadcastMessage({ type: 'match-found', data: match });
       logger.info('Match found and clients notified', { match });
