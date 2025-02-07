@@ -35,30 +35,44 @@ export interface _PrismaMigrations {
 }
 
 export interface GameSession {
-  createdAt: Generated<Timestamp>;
-  id: string;
-  players: Json;
+  id?: Generated<string>;
+  players: string[];
   status: string;
+  createdAt?: Generated<Timestamp>;
+}
+
+export interface Match {
+  id?: Generated<string>;
+  player1_id: string;
+  player2_id: string;
+  created_at?: Generated<Timestamp>;
+}
+
+export interface Matchmaking {
+  id?: Generated<string>;
+  players: Json;
+  createdAt?: Generated<Timestamp>;
 }
 
 export interface Player {
-  id: string;
-  playerId: string;
+  id?: Generated<string>;
   skill: number;
-  timestamp: Generated<Timestamp>;
+  createdAt?: Generated<Timestamp>;
 }
 
 export interface User {
-  createdAt: Generated<Timestamp>;
+  id?: Generated<string>;
   email: string | null;
-  id: string;
   password: string;
   username: string;
+  createdAt?: Generated<Timestamp>;
 }
 
 export interface DB {
   _prisma_migrations: _PrismaMigrations;
   GameSession: GameSession;
+  Match: Match;
+  Matchmaking: Matchmaking;
   Player: Player;
   User: User;
 }

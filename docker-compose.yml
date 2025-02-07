@@ -82,7 +82,7 @@ services:
       environment:
          POSTGRES_USER: postgres
          POSTGRES_PASSWORD: password
-         POSTGRES_DB: game_sessions
+         POSTGRES_DB: game_dbs
       ports:
          - '5432:5432'
       volumes:
