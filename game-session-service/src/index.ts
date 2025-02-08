@@ -3,7 +3,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './docs/swaggerConfig';
 import gameSessionRoutes from './routes/gameSessionRoutes';
 import { startGameSessionConsumer } from './consumers/gameSessionConsumer';
-import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
+import { logger } from '@maorte/strategos-services-common-package/dist/logger';
 
 export const app = express();
 app.use(express.json());

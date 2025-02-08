@@ -5,12 +5,13 @@ services:
          context: ./auth-service
       ports:
          - '3000:3000'
+         - '9231:9231' # Debugging port
       networks:
          - backend
       depends_on:
          - redis
          - postgres
-
+      command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9231 --nolazy "src/index.ts"
    game-session-service:
       build:
          context: ./game-session-service

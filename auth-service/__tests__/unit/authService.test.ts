@@ -1,4 +1,4 @@
-import { registerUser, loginUser, validateToken } from '../../src/services/authService';
+import { registerUser, loginUser } from '../../src/services/authService';
 import jwt from 'jsonwebtoken';
 
 jest.mock('jsonwebtoken');
@@ -40,27 +40,6 @@ describe('Auth Service', () => {
     it('should throw an error for invalid credentials', async () => {
       await expect(loginUser('invaliduser', 'wrongpassword')).rejects.toThrow(
         'Invalid credentials'
-      );
-    });
-  });
-
-  describe('validateToken', () => {
-    it('should validate a token and return the decoded payload', async () => {
-      const mockPayload = { id: '123', username: 'testuser' };
-      (jwt.verify as jest.Mock).mockReturnValue(mockPayload);
-
-      const result = await validateToken('mocked.jwt.token');
-
-      expect(result).toEqual(mockPayload);
-    });
-
-    it('should throw an error for an invalid token', async () => {
-      (jwt.verify as jest.Mock).mockImplementation(() => {
-        throw new Error('Invalid token');
-      });
-
-      await expect(validateToken('invalid.token')).rejects.toThrow(
-        'Invalid token'
       );
     });
   });

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { registerUser, loginUser, validateToken } from '../services/authService';
-import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
+import { registerUser, loginUser } from '../services/authService';
+import { logger } from '@maorte/strategos-services-common-package/dist/logger';
 
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {

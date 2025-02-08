@@ -1,7 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { AuthRepository } from './repository';
-import { query } from '@maorte/strategos-services-common-package/dist/database';
 import { User } from './types';
 
 const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';

@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './docs/swaggerConfig';
 import matchmakingRoutes from './routes/matchmakingRoutes';
-import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
+import { logger } from '@maorte/strategos-services-common-package/dist/logger';
 
 dotenv.config();
 export const app = express();

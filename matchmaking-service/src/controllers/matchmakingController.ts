@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { addPlayerToQueue, findMatch } from '../services/matchmakingService';
-import { publishMessage } from '@maorte/strategos-services-common-package/dist/utils/messaging';
-import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
+import { publishMessage } from '@maorte/strategos-services-common-package/dist/messaging';
+import { logger } from '@maorte/strategos-services-common-package/dist/logger';
 import { broadcastMessage } from '../utils/websocketServer';
 
 export const queuePlayer = async (req: Request, res: Response): Promise<void> => {

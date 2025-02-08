@@ -1,4 +1,4 @@
-import { consumeMessages } from '@maorte/strategos-services-common-package/dist/utils/messaging';
+import { consumeMessages } from '@maorte/strategos-services-common-package/dist/messaging';
 import { createGameSession } from '../services/gameSessionService';
 
 const QUEUE_NAME = 'matchmaking-session';

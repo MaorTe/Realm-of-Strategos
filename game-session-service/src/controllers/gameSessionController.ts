@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import logger from '@maorte/strategos-services-common-package/dist/utils/logger';
+import { logger } from '@maorte/strategos-services-common-package/dist/logger';
 import {
   createGameSession,
   getGameSession,
