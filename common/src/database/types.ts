@@ -70,9 +70,9 @@ export interface User {
 
 export interface DB {
   _prisma_migrations: _PrismaMigrations;
-  GameSession: GameSession;
-  Match: Match;
-  Matchmaking: Matchmaking;
-  Player: Player;
-  User: User;
+  game_session: GameSession;
+  match: Match;
+  matchmaking: Matchmaking;
+  player: Player;
+  user: User;
 }
