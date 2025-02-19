@@ -1,6 +1,5 @@
-import { database, sql } from "./kysely-config";
-import { HttpError } from 'src/middlewares/HttpError';
-import { User } from './types';
+import { database } from '@maorte/strategos-services-common-package/dist/database';
+import { User } from '@maorte/strategos-services-common-package/dist/database/types';
 export class AuthRepository {
   
   static async findUserByUsername(username: string): Promise<User | undefined> {

@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './docs/swaggerConfig';
 import matchmakingRoutes from './routes/matchmakingRoutes';
 import { logger } from '@maorte/strategos-services-common-package/dist/logger';
-import { errorHandler } from './middlewares/errorMiddleware';
+import { errorHandler } from '@maorte/strategos-services-common-package/dist/middleware';
 
 dotenv.config();
 export const app = express();

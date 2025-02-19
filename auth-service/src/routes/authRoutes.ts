@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { register, login } from '../controllers/authController';
-import { catchAsyncErrors } from '../middlewares/errorMiddleware';
+import { catchAsyncErrors } from '@maorte/strategos-services-common-package/dist/middleware';
 
 const router = Router();
 

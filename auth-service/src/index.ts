@@ -5,7 +5,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerDocs } from './docs/swaggerConfig';
 import authRoutes from './routes/authRoutes';
 import { logger } from '@maorte/strategos-services-common-package/dist/logger';
-import { errorHandler } from './middlewares/errorMiddleware';
+import { errorHandler } from '@maorte/strategos-services-common-package/dist/middleware';
 
 
 export const app = express();

@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { queuePlayer, findMatchAndPublish, findMatchAndNotify } from '../controllers/matchmakingController';
-import { authMiddleware } from '@maorte/strategos-services-common-package/dist/middleware';
-import { catchAsyncErrors } from '../middlewares/errorMiddleware';
+import { authMiddleware, catchAsyncErrors } from '@maorte/strategos-services-common-package/dist/middleware';
 const router = Router();
 
 /**

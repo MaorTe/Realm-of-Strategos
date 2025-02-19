@@ -5,7 +5,7 @@ import { swaggerDocs } from './docs/swaggerConfig';
 import gameSessionRoutes from './routes/gameSessionRoutes';
 import { startGameSessionConsumer } from './consumers/gameSessionConsumer';
 import { logger } from '@maorte/strategos-services-common-package/dist/logger';
-import { errorHandler } from './middlewares/errorMiddleware';
+import { errorHandler } from '@maorte/strategos-services-common-package/dist/middleware';
 
 export const app = express();
 app.use(express.json());

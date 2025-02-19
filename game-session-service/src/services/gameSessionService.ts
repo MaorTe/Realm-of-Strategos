@@ -1,7 +1,7 @@
-import { GameSession } from './types';
+import { GameSession } from '@maorte/strategos-services-common-package/dist/database/types';
 import Redis from 'ioredis';
 import { GameSessionRepository } from './repository';
-import { HttpError } from 'src/middlewares/HttpError';
+import { HttpError } from '@maorte/strategos-services-common-package/dist/middleware';
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',

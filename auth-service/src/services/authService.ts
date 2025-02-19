@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { AuthRepository } from './repository';
-import { User } from './types';
+import { User } from '@maorte/strategos-services-common-package/dist/database/types';
 import { JWT_SECRET }from '../config';
-import { HttpError } from 'src/middlewares/HttpError';
+import { HttpError } from '@maorte/strategos-services-common-package/dist/middleware';
 
 export const registerUser = async (username: string, password: string): Promise<User> => {
   
