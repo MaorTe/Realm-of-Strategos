@@ -1,31 +1,32 @@
 //import { database, sql } from "@maorte/strategos-services-common-package/dist/database/kysely-config";
 import { database, sql } from "./kysely-config";
-import { Player } from "../models/player";
+import { Match } from "../models/match";
 
 export const MatchmakingRepository = {
   /**
    * Save a match in the PostgreSQL database.
-   * @param players - The two matched players.
+   * @param player1Id - The first matched player's ID.
+   * @param player2Id - The second matched player's ID.
    */
-  saveMatch: async (player1Id: string, player2Id: string): Promise<void> => {
-      await database
-      .insertInto('Match')
+   saveMatch: async (player1Id: string, player2Id: string): Promise<Match | undefined> => {
+      return await database
+      .insertInto('match')
       .values({
         player1_id: player1Id,
         player2_id: player2Id
       })
       .defaultValues()  // ✅ Uses DB defaults for columns with DEFAULT
-      .returning(['id']) // ✅ Returns the generated `id`
-      .execute();
+      .returningAll() // ✅ Returns the generated `id`
+      .executeTakeFirst();
   },
 
   /**
    * Fetch the last X matches from the database.
    * @param limit - Number of recent matches to retrieve.
    */
-  getRecentMatches: async (limit: number = 10): Promise<any[]> => {
+  getRecentMatches: async (limit: number = 10): Promise<Match[]> => {
     return await database
-      .selectFrom("Match")
+      .selectFrom("match")
       .selectAll()
       .orderBy("created_at", "desc")
       .limit(limit)
@@ -37,7 +38,7 @@ export const MatchmakingRepository = {
    */
   cleanupOldMatches: async (): Promise<void> => {
     await database
-      .deleteFrom("Match")
+      .deleteFrom("match")
       .where(
         sql.ref("created_at"),  // ✅ Correctly reference the column
         "<",

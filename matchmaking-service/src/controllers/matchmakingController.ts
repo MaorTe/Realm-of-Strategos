@@ -13,47 +13,32 @@ export const queuePlayer = async (req: Request, res: Response): Promise<void> =>
     return;
   }
 
-  try {
-    await addPlayerToQueue({ id, skill, timestamp: Date.now() });
-    logger.info(`Player added to matchmaking queue: ${id}`);
-    res.status(200).json({ message: 'Player added to queue' });
-  } catch (error) {
-    logger.error('Failed to add player to queue:', error);
-    res.status(500).json({ error: 'Failed to add player to queue' });
-  }
+  await addPlayerToQueue({ id, skill, timestamp: Date.now() });
+  logger.info(`Player added to matchmaking queue: ${id}`);
+  res.status(200).json({ message: 'Player added to queue' });
 };
 
 export const findMatchAndPublish = async (req: Request, res: Response): Promise<void> => {
-  try {
     const match = await findMatch(req as any);
-    if (match) {
+    if (!match) {
+      logger.warn("No match found.");
+      res.status(404).json({ message: "No match found" });
+    }
+
       const queue = 'matchmaking-session';
       await publishMessage(queue, { match });
       logger.info('Match found and published:', { match });
       res.status(200).json({ message: 'Match found and published', match });
-    } else {
-      logger.warn('No match found.');
-      res.status(404).json({ message: 'No match found' });
-    }
-  } catch (error) {
-    logger.error('Failed to find match and publish:', error);
-    res.status(500).json({ error: 'Failed to find match and publish' });
-  }
 };
 
 export const findMatchAndNotify = async (req: Request, res: Response): Promise<void> => {
-  try {
     const match = await findMatch(req as any);
-    if (match) {
+
+    if (!match) {
+      logger.warn("No match found.");
+      res.status(404).json({ message: "No match found" });
+    }
       broadcastMessage({ type: 'match-found', data: match });
       logger.info('Match found and clients notified', { match });
       res.status(200).json({ message: 'Match found and clients notified', match });
-    } else {
-      logger.warn('No match found.');
-      res.status(404).json({ message: 'No match found' });
-    }
-  } catch (error) {
-    logger.error('Failed to find match and notify', error);
-    res.status(500).json({ error: 'Failed to find match and notify' });
-  }
 };

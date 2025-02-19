@@ -1,6 +1,7 @@
 import Redis from 'ioredis';
 import { MatchmakingRepository } from './repository';
 import { Player } from '../models/player';
+import { HttpError } from "../middlewares/HttpError";
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',
@@ -17,6 +18,10 @@ export const findMatch = async (req : Request): Promise<Player[] | null> => {
   const user = (req as any).user; // Assuming you attach the user object to the request
 
   const allPlayers = await redis.zrange('matchmaking_queue', 0, -1);
+  if (allPlayers.length < 2) {
+    return null; // Not enough players in queue
+  }
+
   for (let i = 0; i < allPlayers.length - 1; i++) {
     const player1 = JSON.parse(allPlayers[i]) as Player;
     const player2 = JSON.parse(allPlayers[i + 1]) as Player;
@@ -27,7 +32,11 @@ export const findMatch = async (req : Request): Promise<Player[] | null> => {
       // Save match in PostgreSQL using repository
       await MatchmakingRepository.saveMatch(player1.id, player2.id);
 
-
+// Save match in PostgreSQL using repository
+      const match = await MatchmakingRepository.saveMatch(player1.id, player2.id);
+      if (!match) {
+        throw new HttpError("Failed to save match", 500);
+      }
       return [player1, player2];
     }
   }
