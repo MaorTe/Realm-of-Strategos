@@ -1,6 +1,8 @@
 version: '3.8'
 services:
    auth-service:
+      container_name: auth-service
+      env_file: ./auth-service/.env
       build:
          context: ./auth-service
       ports:
@@ -13,6 +15,8 @@ services:
          - postgres
       command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9231 --nolazy "src/index.ts"
    game-session-service:
+      container_name: game-session-service
+      env_file: ./game-session-service/.env
       build:
          context: ./game-session-service
       ports:
@@ -26,6 +30,8 @@ services:
       command: npx nodemon --signal SIGINT --inspect=0.0.0.0:9230 --nolazy "src/index.ts" # Run the debug script with Nodemon
 
    matchmaking-service:
+      container_name: matchmaking-service
+      env_file: ./matchmaking-service/.env
       build:
          context: ./matchmaking-service
       volumes:
@@ -54,6 +60,7 @@ services:
 
    rabbitmq:
       image: rabbitmq:3-management
+      container_name: rabbitmq
       ports:
          - "5672:5672"   # Default RabbitMQ port
          - "15672:15672" # Management UI
@@ -65,6 +72,7 @@ services:
          
    redis:
       image: redis:latest
+      container_name: redis
       ports:
          - '6379:6379'
       networks:
@@ -79,13 +87,15 @@ services:
 
    postgres:
       image: postgres:latest
-      container_name: postgres
+      container_name: postgres_db
       environment:
-         POSTGRES_USER: postgres
-         POSTGRES_PASSWORD: password
+         POSTGRES_USER: maorte
+         POSTGRES_PASSWORD: pass123
          POSTGRES_DB: game_dbs
       ports:
          - '5432:5432'
+      expose:
+      - 5432
       volumes:
          - pg-data:/var/lib/postgresql/data
       networks:
