@@ -1,6 +1,6 @@
 {
    "name": "@maorte/strategos-services-common-package",
-   "version": "1.0.14",
+   "version": "1.0.15",
    "main": "dist/config.js",
    "types": "types",
    "scripts": {

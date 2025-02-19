@@ -15,34 +15,39 @@ datasource db {
 }
 
 model User {
-  id          String  @id @default(uuid()) @db.Uuid
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   username  String  @unique
   email     String? // Optional email field
   password  String
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now()) @map("created_at")
+  @@map("user")
 }
 
 model Player {
-  id          String  @id @default(uuid()) @db.Uuid
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   skill     Int      // Skill level for matchmaking
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now()) @map("created_at")
+  @@map("player")
 }
 
 model Matchmaking {
-  id          String  @id @default(uuid()) @db.Uuid
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   players   Json     // Store matched players in JSONB (Redis Caching)
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now()) @map("created_at")
+  @@map("matchmaking")
 }
 
 model GameSession {
-  id          String  @id @default(uuid()) @db.Uuid
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   status    String   @default("waiting") // [waiting, active, completed]
-  createdAt DateTime @default(now())
+  createdAt  DateTime @default(now()) @map("created_at")
+  @@map("game_session")
 }
 
 model Match {
-  id          String  @id @default(uuid()) @db.Uuid
+  id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   player1_id  String  
   player2_id  String  
   created_at  DateTime @default(now())
+  @@map("match")
 }
