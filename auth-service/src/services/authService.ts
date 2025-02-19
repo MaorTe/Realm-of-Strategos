@@ -2,33 +2,34 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { AuthRepository } from './repository';
 import { User } from './types';
-
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
+import { JWT_SECRET }from '../config';
+import { HttpError } from 'src/middlewares/HttpError';
 
 export const registerUser = async (username: string, password: string): Promise<User> => {
+  
   const existingUser = await AuthRepository.findUserByUsername(username);
   if (existingUser) {
-    throw new Error('User already exists');
+    throw new HttpError('User already exists', 409);
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const newUser = {
-    username,
-    password: hashedPassword,
-  };
+  const insertedUser = await AuthRepository.createUser(username, hashedPassword);
+  if (!insertedUser) {
+    throw new HttpError("User registration failed", 500);
+  }
 
-  await AuthRepository.createUser(newUser.username, newUser.password);
-  return newUser as User;
+  return insertedUser;
 };
 
 export const loginUser = async (username: string, password: string): Promise<string> => {
   const user = await AuthRepository.findUserByUsername(username);
   if (!user) {
-    throw new Error('Invalid credentials');
+    throw new HttpError('User already exists', 409);
   }
+
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
-    throw new Error('Invalid credentials');
+    throw new HttpError('Invalid credentials', 401);
   }
-  return jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+  return jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 };

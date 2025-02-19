@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { register, login } from '../controllers/authController';
+import { catchAsyncErrors } from '../middlewares/errorMiddleware';
 
 const router = Router();
 
@@ -28,7 +29,7 @@ const router = Router();
  *       409:
  *         description: User already exists
  */
-router.post('/register', register);
+router.post('/register', catchAsyncErrors(register));
 
 /**
  * @swagger
@@ -53,6 +54,6 @@ router.post('/register', register);
  *       401:
  *         description: Invalid credentials
  */
-router.post('/login', login);
+router.post('/login', catchAsyncErrors(login));
 
 export default router;
