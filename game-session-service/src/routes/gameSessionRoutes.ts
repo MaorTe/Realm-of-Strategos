@@ -7,6 +7,7 @@ import {
   deleteSession,
 } from '../controllers/gameSessionController';
 import { authMiddleware } from '@maorte/strategos-services-common-package/dist/middleware';
+import { catchAsyncErrors } from '../middlewares/errorMiddleware';
 
 const router = Router();
 
@@ -33,7 +34,7 @@ const router = Router();
  *       400:
  *         description: Invalid players array
  */
-router.post('/create', authMiddleware, createSession);
+router.post('/create', authMiddleware, catchAsyncErrors(createSession));
 
 /**
  * @swagger
@@ -59,7 +60,7 @@ router.post('/create', authMiddleware, createSession);
  *       404:
  *         description: Session not found
  */
-router.get('/:id', authMiddleware, retrieveSession);
+router.get('/:id', authMiddleware, catchAsyncErrors(retrieveSession));
 
 /**
  * @swagger
@@ -78,7 +79,7 @@ router.get('/:id', authMiddleware, retrieveSession);
  *               items:
  *                 $ref: '#/components/schemas/GameSession'
  */
-router.get('/', authMiddleware, listSessions);
+router.get('/', authMiddleware, catchAsyncErrors(listSessions));
 
 /**
  * @swagger
@@ -108,7 +109,7 @@ router.get('/', authMiddleware, listSessions);
  *       404:
  *         description: Session not found
  */
-router.patch('/:id/status', authMiddleware, updateSessionStatus);
+router.patch('/:id/status', authMiddleware, catchAsyncErrors(updateSessionStatus));
 
 /**
  * @swagger
@@ -130,6 +131,6 @@ router.patch('/:id/status', authMiddleware, updateSessionStatus);
  *       404:
  *         description: Session not found
  */
-router.delete('/:id', authMiddleware, deleteSession);
+router.delete('/:id', authMiddleware, catchAsyncErrors(deleteSession));
 
 export default router;
