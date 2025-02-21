@@ -5,5 +5,4 @@ export { authMiddleware } from '../middleware/authMiddleware';
 export { HttpError } from './HttpError';
 
 // Error middleware
-export { errorHandler } from '../middleware/errorMiddleware';
-export { catchAsyncErrors } from '../middleware/errorMiddleware';
+export { errorHandler, catchAsyncErrors } from '../middleware/errorMiddleware';

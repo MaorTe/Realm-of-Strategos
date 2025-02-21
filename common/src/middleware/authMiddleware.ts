@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { User } from '../models/user';
-import { query } from '../database';
-
-const SECRET_KEY = process.env.JWT_SECRET || 'your-secret-key';
+import { User } from '../database/types';
+import { database } from '../database';
+import { JWT_SECRET } from '../config';
 
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -14,12 +13,8 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, SECRET_KEY) as jwt.JwtPayload;
-
-    // Query the database for the user
-    const userQuery = 'SELECT * FROM users WHERE id = $1 LIMIT 1';
-    const users : User[] = await query(userQuery, [decoded.id]); // Use your query helper
-    const user: User = users[0];
+    const decoded = jwt.verify(token, JWT_SECRET) as jwt.JwtPayload;
+    const user = await getUserById(decoded.id);
 
     if (!user) {
       res.status(401).json({ message: 'User not found' });
@@ -34,3 +29,11 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
     res.status(401).json({ message: 'Unauthorized', error });
   }
 };
+
+async function getUserById(userId: string): Promise<User | undefined> {
+  return await database
+    .selectFrom("user")
+    .selectAll()
+    .where("id", "=", userId)
+    .executeTakeFirst() as User; // Fetches only the first result or `undefined`
+}
