@@ -1,7 +1,7 @@
-import { database } from '@maorte/strategos-services-common-package/dist/database';
-import { User } from '@maorte/strategos-services-common-package/dist/database/types';
+import { database, User } from '@maorte/strategos-services-common-package/dist';
 export class AuthRepository {
   
+
   static async findUserByUsername(username: string): Promise<User | undefined> {
     return await database
       .selectFrom('user')

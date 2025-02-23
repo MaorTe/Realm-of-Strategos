@@ -13,13 +13,6 @@ export const database = new Kysely<DB>({
   }),
 });
 
-export const getDatabaseConnection = () => {
-  return database;
-};
-
-export const closeDatabaseConnection = async () => {
-  await database.destroy();
-};
 
 
 export { sql };

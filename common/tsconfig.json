@@ -1,24 +1,45 @@
+// {
+//   "compilerOptions": {
+//     "target": "ES2020",
+//     "module": "commonjs",
+//     "esModuleInterop": true,
+//     "forceConsistentCasingInFileNames": true,
+    
+//     /* Type Checking */
+//     "strict": true,
+    
+//     /* Completeness */ 
+//     "skipLibCheck": true,
+//     "outDir": "./dist",
+//     "rootDir": "src",
+//     "moduleResolution": "node",
+//     "composite": true,
+
+//     "sourceMap": true,
+//     "sourceRoot": "./dist",
+//     "declaration": true,
+//     "declarationDir": "./dist",
+//     //"baseUrl": ".",  
+
+    
+
+
+//   },
+//   "include": ["src/**/*", "__tests__/**/*"],
+//   "exclude": ["node_modules", "dist"]
+// }
+
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    
-    /* Type Checking */
-    "strict": true,
-    
-    /* Completeness */ 
-    "skipLibCheck": true,
-    "outDir": "./dist",
+    "target": "esnext",
+    "module": "CommonJS",
     "rootDir": "src",
-    "moduleResolution": "node",
-    "composite": true,
-    //"baseUrl": ".",  
-
+    "outDir": "dist",
+    "declaration": true,
     "sourceMap": true,
-    "sourceRoot": "./src",
+    "strict": true,
+    "esModuleInterop": true
   },
-  "include": ["src/**/*", "__tests__/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
