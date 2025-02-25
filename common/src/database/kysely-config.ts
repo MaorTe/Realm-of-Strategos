@@ -1,16 +1,17 @@
-import { Kysely, PostgresDialect, sql } from 'kysely';
-import { Pool } from 'pg';
-import { DB } from './types';
-import { DATABASE_URL }from '../config';
+import { Kysely, PostgresDialect, sql } from "kysely";
+import { Pool } from "pg";
+import { DB } from "./types";
 
-export const database = new Kysely<DB>({
-  dialect: new PostgresDialect({
-    pool: new Pool({
-      connectionString: DATABASE_URL,
-      max: 10, // Maximum number of clients in the pool
-      idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+
+export function createDatabase(connectionString: string) {
+  return new Kysely<DB>({
+    dialect: new PostgresDialect({
+      pool: new Pool({
+        connectionString,
+        max: 10, // Maximum number of clients in the pool
+        idleTimeoutMillis: 30000, // Close idle clients after 30 seconds
+      }),
     }),
-  }),
-});
-
+  });
+}
 export { sql };
