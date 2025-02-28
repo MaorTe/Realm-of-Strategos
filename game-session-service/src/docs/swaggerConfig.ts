@@ -14,6 +14,14 @@ const swaggerOptions = {
       },
     ],
     components: {
+      // Authorize bearer token
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
       schemas: {
         GameSession: {
           type: 'object',
@@ -67,6 +75,11 @@ const swaggerOptions = {
         },
       },
     },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ['./src/routes/**/*.ts'], // Path to API annotations
 };
