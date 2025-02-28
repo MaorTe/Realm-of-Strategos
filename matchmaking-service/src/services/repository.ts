@@ -1,6 +1,7 @@
-//import { database, sql } from "@maorte/strategos-services-common-package/dist/database/kysely-config";
-import { database, sql } from "./kysely-config";
-import { Match } from "../models/match";
+import { DATABASE_URL } from "../config";
+import { createDatabase, Match, sql } from '@maorte/strategos-services-common-package/dist';
+
+const database = createDatabase(DATABASE_URL);
 
 export const MatchmakingRepository = {
   /**
@@ -8,16 +9,16 @@ export const MatchmakingRepository = {
    * @param player1Id - The first matched player's ID.
    * @param player2Id - The second matched player's ID.
    */
-   saveMatch: async (player1Id: string, player2Id: string): Promise<Match | undefined> => {
+   saveMatch: async (player1_id: string , player2_id: string): Promise<Match> => {
       return await database
       .insertInto('match')
       .values({
-        player1_id: player1Id,
-        player2_id: player2Id
+        player1_id,
+        player2_id
       })
       .defaultValues()  // ✅ Uses DB defaults for columns with DEFAULT
       .returningAll() // ✅ Returns the generated `id`
-      .executeTakeFirst();
+      .executeTakeFirst() as Match;
   },
 
   /**
@@ -30,7 +31,7 @@ export const MatchmakingRepository = {
       .selectAll()
       .orderBy("created_at", "desc")
       .limit(limit)
-      .execute();
+      .execute() as Match[];
   },
 
   /**

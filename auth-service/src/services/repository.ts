@@ -1,4 +1,8 @@
-import { database, User } from '@maorte/strategos-services-common-package/dist';
+import { DATABASE_URL } from "../config";
+import { createDatabase, User } from '@maorte/strategos-services-common-package/dist';
+
+const database = createDatabase(DATABASE_URL);
+
 export class AuthRepository {
   
 

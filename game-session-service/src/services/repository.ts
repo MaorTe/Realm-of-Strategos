@@ -1,6 +1,8 @@
 import { DeleteResult, UpdateResult } from "kysely";
-import { database } from "./kysely-config";
-import { GameSession } from '@maorte/strategos-services-common-package/dist/database/types';
+import { DATABASE_URL } from "../config";
+import { createDatabase, GameSession } from '@maorte/strategos-services-common-package/dist';
+
+const database = createDatabase(DATABASE_URL);
 
 export class GameSessionRepository {
   

@@ -9,4 +9,5 @@ const getEnv = (key: string): string => {
 };
 
 // Export each variable directly
+export const JWT_SECRET = getEnv("JWT_SECRET");
 export const DATABASE_URL = getEnv("DATABASE_URL");

@@ -13,7 +13,7 @@ export const queuePlayer = async (req: Request, res: Response): Promise<void> =>
     return;
   }
 
-  await addPlayerToQueue({ id, skill, timestamp: Date.now() });
+  await addPlayerToQueue({ id, skill });
   logger.info(`Player added to matchmaking queue: ${id}`);
   res.status(200).json({ message: 'Player added to queue' });
 };

@@ -24,7 +24,7 @@ export const registerUser = async (username: string, password: string): Promise<
 export const loginUser = async (username: string, password: string): Promise<string> => {
   const user = await AuthRepository.findUserByUsername(username);
   if (!user) {
-    throw new HttpError('User already exists', 409);
+    throw new HttpError('User not found', 404);
   }
 
   const isPasswordValid = await bcrypt.compare(password, user.password);

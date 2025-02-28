@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { JWT_SECRET, DATABASE_URL } from '../config';
+import { authMiddleware, catchAsyncErrors } from '@maorte/strategos-services-common-package/dist';
 import {
   createSession,
   retrieveSession,
@@ -6,15 +8,17 @@ import {
   updateSessionStatus,
   deleteSession,
 } from '../controllers/gameSessionController';
-import { authMiddleware, catchAsyncErrors } from '@maorte/strategos-services-common-package/dist/middleware';
 
 const router = Router();
+const authMiddlewareRef = authMiddleware(JWT_SECRET, DATABASE_URL)
 
 /**
  * @swagger
  * /game-session/create:
  *   post:
  *     summary: Create a new game session
+ *     security:
+ *       - bearerAuth: []
  *     tags:
  *       - Game Sessions
  *     requestBody:
@@ -33,13 +37,15 @@ const router = Router();
  *       400:
  *         description: Invalid players array
  */
-router.post('/create', authMiddleware, catchAsyncErrors(createSession));
+router.post('/create', authMiddlewareRef, catchAsyncErrors(createSession));
 
 /**
  * @swagger
  * /game-session/{id}:
  *   get:
  *     summary: Retrieve details of a specific session
+ *     security:
+ *       - bearerAuth: []
  *     tags:
  *       - Game Sessions
  *     parameters:
@@ -59,13 +65,15 @@ router.post('/create', authMiddleware, catchAsyncErrors(createSession));
  *       404:
  *         description: Session not found
  */
-router.get('/:id', authMiddleware, catchAsyncErrors(retrieveSession));
+router.get('/:id', authMiddlewareRef, catchAsyncErrors(retrieveSession));
 
 /**
  * @swagger
  * /game-session:
  *   get:
  *     summary: List all game sessions
+ *     security:
+ *       - bearerAuth: []
  *     tags:
  *       - Game Sessions
  *     responses:
@@ -78,13 +86,15 @@ router.get('/:id', authMiddleware, catchAsyncErrors(retrieveSession));
  *               items:
  *                 $ref: '#/components/schemas/GameSession'
  */
-router.get('/', authMiddleware, catchAsyncErrors(listSessions));
+router.get('/', authMiddlewareRef, catchAsyncErrors(listSessions));
 
 /**
  * @swagger
  * /game-session/{id}/status:
  *   patch:
  *     summary: Update the status of a game session
+ *     security:
+ *       - bearerAuth: []
  *     tags:
  *       - Game Sessions
  *     parameters:
@@ -108,13 +118,15 @@ router.get('/', authMiddleware, catchAsyncErrors(listSessions));
  *       404:
  *         description: Session not found
  */
-router.patch('/:id/status', authMiddleware, catchAsyncErrors(updateSessionStatus));
+router.patch('/:id/status', authMiddlewareRef, catchAsyncErrors(updateSessionStatus));
 
 /**
  * @swagger
  * /game-session/{id}:
  *   delete:
  *     summary: Delete a game session
+ *     security:
+ *       - bearerAuth: []
  *     tags:
  *       - Game Sessions
  *     parameters:
@@ -130,6 +142,6 @@ router.patch('/:id/status', authMiddleware, catchAsyncErrors(updateSessionStatus
  *       404:
  *         description: Session not found
  */
-router.delete('/:id', authMiddleware, catchAsyncErrors(deleteSession));
+router.delete('/:id', authMiddlewareRef, catchAsyncErrors(deleteSession));
 
 export default router;

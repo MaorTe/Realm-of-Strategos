@@ -1,7 +1,6 @@
 import Redis from 'ioredis';
 import { MatchmakingRepository } from './repository';
-import { Player } from '../models/player';
-import { HttpError } from '@maorte/strategos-services-common-package/dist/middleware';
+import { HttpError, Player } from '@maorte/strategos-services-common-package/dist';
 
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',
@@ -30,10 +29,10 @@ export const findMatch = async (req : Request): Promise<Player[] | null> => {
       await redis.zrem('matchmaking_queue', allPlayers[i], allPlayers[i + 1]);
 
       // Save match in PostgreSQL using repository
-      const match = await MatchmakingRepository.saveMatch(player1.id, player2.id);
-      if (!match) {
-        throw new HttpError("Failed to save match", 500);
-      }
+      // const match = await MatchmakingRepository.saveMatch(player1.id as string, player2?.id as string);
+      // if (!match) {
+      //   throw new HttpError("Failed to save match", 500);
+      // }
       return [player1, player2];
     }
   }

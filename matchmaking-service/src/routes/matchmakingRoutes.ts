@@ -1,8 +1,9 @@
 import { Router } from 'express';
+import { JWT_SECRET, DATABASE_URL } from '../config';
 import { queuePlayer, findMatchAndPublish, findMatchAndNotify } from '../controllers/matchmakingController';
-import { authMiddleware, catchAsyncErrors } from '@maorte/strategos-services-common-package/dist/middleware';
+import { authMiddleware, catchAsyncErrors } from '@maorte/strategos-services-common-package/dist';
 const router = Router();
-
+const authMiddlewareRef = authMiddleware(JWT_SECRET, DATABASE_URL);
 /**
  * @swagger
  * /matchmaking/queue:
@@ -24,7 +25,7 @@ const router = Router();
  *       500:
  *         description: Failed to add player to queue.
  */
-router.post('/queue', authMiddleware, catchAsyncErrors(queuePlayer));
+router.post('/queue', authMiddlewareRef, catchAsyncErrors(queuePlayer));
 
 /**
  * @swagger
@@ -41,7 +42,7 @@ router.post('/queue', authMiddleware, catchAsyncErrors(queuePlayer));
  *       500:
  *         description: Failed to find or publish match
  */
-router.get('/match/publish', authMiddleware, catchAsyncErrors(findMatchAndPublish));
+router.get('/match/publish', authMiddlewareRef, catchAsyncErrors(findMatchAndPublish));
 
 /**
  * @swagger
@@ -58,6 +59,6 @@ router.get('/match/publish', authMiddleware, catchAsyncErrors(findMatchAndPublis
  *       500:
  *         description: Failed to find match or notify clients
  */
-router.get('/match/notify', authMiddleware, catchAsyncErrors(findMatchAndNotify));
+router.get('/match/notify', authMiddlewareRef, catchAsyncErrors(findMatchAndNotify));
 
 export default router;
