@@ -17,7 +17,6 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
     const isHttpError = err instanceof HttpError;
     const statusCode = isHttpError ? err.statusCode : 500;
     const message = err.message || "Internal Server Error";
-    logger.info(`[TEST] ${message}, ${statusCode}, ${isHttpError}`);
 
     // Log unexpected errors separately
     if (!isHttpError || !err.isOperational) {
