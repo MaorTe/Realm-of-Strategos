@@ -1,5 +1,5 @@
 import { DATABASE_URL } from "../config";
-import { createDatabase, Match, sql } from '@maorte/strategos-services-common-package/dist';
+import { createDatabase, Match, sql} from '@maorte/strategos-services-common-package/dist';
 
 const database = createDatabase(DATABASE_URL);
 
@@ -16,7 +16,6 @@ export const MatchmakingRepository = {
         player1_id,
         player2_id
       })
-      .defaultValues()  // ✅ Uses DB defaults for columns with DEFAULT
       .returningAll() // ✅ Returns the generated `id`
       .executeTakeFirst() as Match;
   },
